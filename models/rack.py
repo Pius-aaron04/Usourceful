@@ -1,13 +1,15 @@
+#!/usr/bin/python3
+
 """
 Defines the rack class for rack objects.
 """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from os import getenv
-from sqlachemy import Column, String, Boolean
-from sqlachemy.orm import relationship
+from sqlalchemy import Column, String, Boolean
+from sqlalchemy.orm import relationship
 
 
-class Rack(BaseModel):
+class Rack(BaseModel, Base):
     """
     Defines Rack objects
     """

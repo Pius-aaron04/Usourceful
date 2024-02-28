@@ -3,10 +3,11 @@
 Defines sub-racks.
 """
 from models.rack import Rack, String, Column
-from sqlachemy.orm import relationship
+from sqlalchemy.orm import relationship
+from os import getenv
 
 
-class subrack(Rack):
+class Subrack(Rack):
     """
     Sub racks for branched racks.
     """

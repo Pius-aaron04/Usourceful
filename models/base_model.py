@@ -5,10 +5,16 @@ This is the foundation of every data model in the database.
 
 from datetime import datetime
 import sqlalchemy
+import models
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from uuid import uuid4
 from os import getenv
+
+if models.storage_type == 'db':
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:
@@ -20,7 +26,7 @@ class BaseModel:
     if getenv('USOURCE_STORAGE') == 'db':
         id = Column(String(60), primary_key=True, default=str(uuid4()))
         created_at = Column(DateTime, default=datetime.utcnow())
-        updated_at = Column(Datetime, default=datetime.utcnow())
+        updated_at = Column(DateTime, default=datetime.utcnow())
     else:
         id = str(uuid4())
         created_at = datetime.utcnow()

@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """ Defines database storage model."""
 
-import sqlachemy
-from sqlachemy import create_engine
-from sqlachemy.orm import sessionmaker, scoped_session
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
+from models.base_model import Base
 
 class DBStorage:
     """Database Storage System"""
@@ -24,7 +25,7 @@ class DBStorage:
                                       format(USER, PWD, HOST, DB))
 
         if ENV == "test":
-            Base.metadata,drop_all(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ returns all cls instance """
