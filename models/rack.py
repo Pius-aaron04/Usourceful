@@ -5,8 +5,10 @@ Defines the rack class for rack objects.
 """
 from models.base_model import BaseModel, Base
 from os import getenv
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
+from models.resource import Resource
+from models.sub_rack import Subrack
 
 
 class Rack(BaseModel, Base):
@@ -18,8 +20,11 @@ class Rack(BaseModel, Base):
         __tablename__ = 'racks'
         name = Column(String(128), nullable=False)
         description = Column(String(255), nullable=False)
-        library_id = Column(String(60), nullable=False)
-        resources = relationship("Resource", backref="racks")
+        library_id = Column(String(60), ForeignKey('libraries.id'),
+                            nullable=False)
+        public = Column(Boolean, default=True, nullable=False)
+        resources = relationship(Resource, backref="rack")
+        subracks = relationship(Subrack, backref="parent_rack")
 
     else:
         name = ""

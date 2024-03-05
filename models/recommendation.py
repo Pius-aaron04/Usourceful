@@ -4,7 +4,7 @@ Defines Recommendation table class
 """
 
 from models.base_model import BaseModel, Base
-from sqlalchemy import String, Column
+from sqlalchemy import String, Column, ForeignKey
 from os import getenv
 
 
@@ -13,10 +13,11 @@ class Recommendation(BaseModel, Base):
 
     if getenv('USOURCE_STORAGE') == 'db':
         __tablename__ = "recommendations"
-        user_id = Column(String(60), nullable=False)
-        resource_id = Column(String(60), nullable=False)
+        user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+        resource_id = Column(String(60), ForeignKey('resources.id'),
+                             nullable=False)
         note = Column(String(1024), nullable=True)
-    
+
     else:
         user_id = ""
         resource_id = ""

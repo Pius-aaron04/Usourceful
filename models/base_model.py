@@ -15,6 +15,7 @@ if models.storage_type == 'db':
     Base = declarative_base()
 else:
     Base = object
+time = '%Y-%m-%dT%H:%M:%S.%f'
 
 
 class BaseModel:
@@ -72,9 +73,9 @@ class BaseModel:
         attributes['__class__'] = self.__class__.__name__
 
         if 'created_at' in attributes:
-            attributes['created_at'] = attributes['created_at'].strftime('%Y-%m-%dT%H:%M:%S.%f')
+            attributes['created_at'] = attributes['created_at'].strftime(time)
         if 'updated_at' in attributes:
-            attributes['updated_at'] = attributes['updated_at'].strftime('%Y-%m-%dT%H:%M:%S.%f')
+            attributes['updated_at'] = attributes['updated_at'].strftime(time)
         if '_sa_instance_state' in attributes:
             del attributes['_sa_instance_state']
         return attributes
@@ -86,5 +87,14 @@ class BaseModel:
             for k, v in kwargs.items():
                 if k not in ('id', 'updated_at', 'created_at'):
                     setattr(self, k, v)
-
+        self.save()
         return self.to_dict()
+
+    def delete(self):
+        """
+        deletes instance from storage.
+        """
+        from models import storage
+
+        storage.delete(self)
+        storage.save()

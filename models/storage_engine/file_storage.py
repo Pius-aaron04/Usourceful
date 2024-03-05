@@ -52,14 +52,14 @@ class FileStorage:
         # Retrives data if data class is specified
         if cls:
             all_objects = {}
-            classname =  cls.__class__.__name__
-            for key,obj_json_data in self.__objects.items():
-                if classname == obj_json_data['__class__']:
-                    all_objects[key] = obj_json_data
+            classname = cls.__name__
+            for key, obj in self.__objects.items():
+                if classname == obj.to_dict()['__class__']:
+                    all_objects[key] = obj
             return all_objects
-        
+
         return self.__objects
-    
+
     def save(self):
         """
         saves json data to the data
@@ -81,7 +81,7 @@ class FileStorage:
                 'content': 'https://drive.google.com/my_drive/sysadmin'
             }
             ...
-        
+
         }
         """
 
@@ -95,11 +95,14 @@ class FileStorage:
         """
 
         try:
-            with open(self.__file_path, mode='r', encoding='utf-8') as json_file:
+            with open(self.__file_path, mode='r', encoding='utf-8') as\
+                                                                json_file:
                 data = json.load(json_file)
 
-                # creates a dictionary of objects with individual object attribute
-            self.__objects = {'{}.{}'.format(value['__class__'], value['id']): self.classes[value['__class__']](**value) for value in data}
+            # creates a dictionary of objects with individual object attribute
+            self.__objects = {'{}.{}'.format(value['__class__'], value['id']):
+                              self.classes[value['__class__']](**value)
+                              for value in data}
         except Exception as e:
             print(e)
 
@@ -109,4 +112,15 @@ class FileStorage:
         """
 
         if cls in self.classes.values():
-            return self.__objects.get('{}.{}'.format(cls.__class__.__name__, id), None)
+            return self.__objects\
+                    .get('{}.{}'.format(cls.__class__.__name__, id), None)
+
+    def delete(self, obj):
+        """
+        Removes data object from storage.
+        """
+
+        key = obj['__class__'] + '.' + obj.id
+
+        if key in self.__objects:
+            del self.__objects[key]

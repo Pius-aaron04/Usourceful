@@ -6,6 +6,7 @@ import models
 from os import getenv
 from sqlalchemy.orm import relationship
 
+
 class User(BaseModel, Base):
     """Defines User model."""
 
@@ -15,8 +16,8 @@ class User(BaseModel, Base):
         lastname = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         email = Column(String(128), nullable=False)
-        recommendations =  relationship("Recommendations", backref="users")
-        #library = relationship("Library", backref="users")
+        recommendations = relationship("Recommendation", backref="user")
+        library = relationship("Library", backref="user", uselist=False)
 
     else:
         firstname = ""
