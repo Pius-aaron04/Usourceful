@@ -3,7 +3,7 @@
 Defines test for Resource
 """
 
-from models.resource import Resource
+from models.resource import Resource, Video, Image
 from models import storage, storage_type
 from models.user import User
 from models.library import Library
@@ -52,3 +52,65 @@ class TestResource(unittest.TestCase):
 
             self.assertIsInstance(self.resource.title, str)
             self.resource.save()
+
+class TestVideoResource(TestResource):
+    """
+    Tests Video content class.
+    This will test the class attributes, and relations
+    """
+
+    if storage_type == 'db':
+        video = Video(**{
+            'title': 'Development resource',
+            'description': 'I just dey develop am chill',
+            'public': True,
+            'rack_id': TestResource.rack.id,
+            'source_type': 'URL',
+            'video_url': 'https://github.com/Pius-aaron04/Usourceful'
+            })
+        
+        video1 = Video(**{
+            'title': 'Django Tutorial',
+            'description': 'A video for Django tutorial for Intermediate devs.',
+            'public': True,
+            'rack_id': TestResource.rack.id,
+            'source_type': 'URL',
+            'video_url': 'https://youtu.be/rHux0gMZ3Eg?si=jOwIjEh8TCn2ARsP'
+            })
+        
+        video.save()
+        video1.save()
+
+    def test_attributes(self):
+        """
+        test for attributes
+        """
+
+        # tests for resource to rack link
+        self.assertEqual(self.video.rack, self.rack)
+        
+        self.assertIsInstance(self.video, Video)
+        self.assertIsInstance(self.video.reviews, list)
+        self.assertEqual(self.video.source_type, 'URL')
+        self.assertEqual(self.video1.public, True)
+
+
+class TestImage(TestResource):
+    """Tests image class"""
+
+    image = Image(**{
+            'title': 'Django Tutorial',
+            'description': 'A video for Django tutorial for Intermediate devs.',
+            'public': True,
+            'rack_id': TestResource.rack.id,
+            'source_type': 'URL',
+            'image_url': 'https://youtu.be/rHux0gMZ3Eg?si=jOwIjEh8TCn2ARsP'
+            })
+    
+    image.save()
+
+    def test_attributes(self):
+        """Tests attributes"""
+
+        self.assertIsInstance(self.image, Image)
+        self.assertIsInstance(self.image.rack, Rack)
