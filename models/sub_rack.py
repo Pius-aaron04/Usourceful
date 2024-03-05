@@ -26,8 +26,8 @@ class Subrack(BaseModel, Base):
     else:
         rack_id = ""
 
-
     def __init__(self, *args, **kwargs):
+
         """
         Initializes class
 

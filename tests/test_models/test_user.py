@@ -33,7 +33,6 @@ class TestUser(unittest.TestCase):
         And also test attributes
         """
 
-
         self.assertIsInstance(self.user.to_dict(), dict)
         # self.assertIsInstance(self.user.created_at, datetime)
         # self.assertIsInstance(self.user.updated_at, datetime)

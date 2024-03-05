@@ -3,7 +3,7 @@
 Defines test for Resource
 """
 
-from models.resource import Resource, Video, Image
+from models.resource import Resource, Video, Image, Text
 from models import storage, storage_type
 from models.user import User
 from models.library import Library
@@ -44,7 +44,6 @@ class TestResource(unittest.TestCase):
         library.save()
         rack.save()
 
-
         def test_attributes(self):
             """
             tests attributes.
@@ -52,6 +51,7 @@ class TestResource(unittest.TestCase):
 
             self.assertIsInstance(self.resource.title, str)
             self.resource.save()
+
 
 class TestVideoResource(TestResource):
     """
@@ -68,16 +68,17 @@ class TestVideoResource(TestResource):
             'source_type': 'URL',
             'video_url': 'https://github.com/Pius-aaron04/Usourceful'
             })
-        
+
         video1 = Video(**{
             'title': 'Django Tutorial',
-            'description': 'A video for Django tutorial for Intermediate devs.',
+            'description': 'A video for Django tutorial' +
+                           'for Intermediate devs.',
             'public': True,
             'rack_id': TestResource.rack.id,
             'source_type': 'URL',
             'video_url': 'https://youtu.be/rHux0gMZ3Eg?si=jOwIjEh8TCn2ARsP'
             })
-        
+
         video.save()
         video1.save()
 
@@ -88,7 +89,7 @@ class TestVideoResource(TestResource):
 
         # tests for resource to rack link
         self.assertEqual(self.video.rack, self.rack)
-        
+
         self.assertIsInstance(self.video, Video)
         self.assertIsInstance(self.video.reviews, list)
         self.assertEqual(self.video.source_type, 'URL')
@@ -100,13 +101,14 @@ class TestImage(TestResource):
 
     image = Image(**{
             'title': 'Django Tutorial',
-            'description': 'A video for Django tutorial for Intermediate devs.',
+            'description': 'A video for Django tutorial' +
+                           ' for Intermediate devs.',
             'public': True,
             'rack_id': TestResource.rack.id,
             'source_type': 'URL',
             'image_url': 'https://youtu.be/rHux0gMZ3Eg?si=jOwIjEh8TCn2ARsP'
             })
-    
+
     image.save()
 
     def test_attributes(self):
@@ -114,3 +116,25 @@ class TestImage(TestResource):
 
         self.assertIsInstance(self.image, Image)
         self.assertIsInstance(self.image.rack, Rack)
+
+
+class TestText(TestResource):
+    """
+    Tests Text content class
+    """
+
+    text = Text(**{
+            'title': 'Django Tutorial',
+            'description': 'A note on Django ORM.',
+            'public': True,
+            'rack_id': TestResource.rack.id,
+            'content': 'INTRODUCTION: Django framework is web framework\
+            \nthat offers bunch of capabilities.'
+        }
+    )
+    text.save()
+
+    def test_attributes(self):
+        """ Tests Test instance attributes."""
+
+        self.assertIsInstance(self.text.content, str)

@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 
 storage_type = getenv('USOURCE_STORAGE')
 
+
 class Resource(BaseModel, Base):
     """ Resource class for resource table"""
 
@@ -19,11 +20,10 @@ class Resource(BaseModel, Base):
         subrack_id = Column(String(60), ForeignKey('subracks.id'))
         public = Column(Boolean, default=True)
         reviews = relationship("Review", backref="resource")
-        
+
         __mapper_args__ = {
             'polymorphic_identity': 'resource'
         }
-
 
     else:
         title = ""
@@ -35,6 +35,7 @@ class Resource(BaseModel, Base):
         """ Instantiate Object """
         super().__init__(*args, **kwargs)
 
+
 class Video(Resource):
     """
     Define video resources table for video contents
@@ -45,6 +46,11 @@ class Video(Resource):
         description = Column(String(1024), nullable=False)
         video_url = Column(String(255), nullable=False)
         source_type = Column(String(30), default='URL')
+
+    def __init__(self, *args, **kwargs):
+        """ Instantiate Object """
+        super().__init__(*args, **kwargs)
+
 
 class Image(Resource):
     """
@@ -58,6 +64,11 @@ class Image(Resource):
         image_url = Column(String(255), nullable=False)
         source_type = Column(String(30), default='URL')
 
+    def __init__(self, *args, **kwargs):
+        """ Instantiate Object """
+        super().__init__(*args, **kwargs)
+
+
 class Text(Resource):
     """
     Define Text resourcestable for text contents
@@ -66,4 +77,9 @@ class Text(Resource):
     if storage_type == 'db':
         __tablename__ = 'texts'
         id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
+        description = Column(String(1024), nullable=False)
         content = Column(Text)
+
+    def __init__(self, *args, **kwargs):
+        """ Instantiate Object """
+        super().__init__(*args, **kwargs)

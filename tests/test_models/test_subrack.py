@@ -53,7 +53,6 @@ class TestSubrack(unittest.TestCase):
         rack.save()
         subrack.save()
 
-
         def test_attributes(self):
             """
             tests attributes.
