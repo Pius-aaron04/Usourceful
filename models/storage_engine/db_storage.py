@@ -56,7 +56,7 @@ class DBStorage:
         all_objects = {}
 
         for clss in self.classes:
-            if cls or clss is self.classes[clss] or cls is None:
+            if cls is None or cls is self.classes[clss] or cls is clss:
                 objs = self.__session.query(self.classes[clss]).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
@@ -85,6 +85,18 @@ class DBStorage:
         """
 
         self.__session.commit()
+
+    def get(self, cls, _id):
+        """
+        retrieves an object
+        """
+
+        key = cls.__name__ + '.' + _id
+        data = self.all(cls)
+        if key not in data:
+            return None
+
+        return data[key]
 
     def delete(self, obj=None):
         """
