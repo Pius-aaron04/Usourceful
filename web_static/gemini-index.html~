@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UsourceFul</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="UsourceFul Logo">
+    <h1>UsourceFul</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Libraries</a></li>
+        <li><a href="#">Racks</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h2>Public Libraries</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <a href="#">Learn More</a>
+    </section>
+    <section class="team">
+      <h3>Our Team</h3>
+      <div class="team-member">
+        <img src="team-1.jpg" alt="Team Member 1">
+        <h4>John Kennedy</h4>
+        <p>Owner</p>
+        <p>About: Fullstack Developer, Specialized in backend development</p>
+      </div>
+      <div class="team-member">
+        <img src="team-2.jpg" alt="Team Member 2">
+        <h4>John Rannalty</h4>
+        <p>Owner</p>
+        <p>About: Fullstack Developer, Specialized in backend development</p>
+      </div>
+      <div class="team-member">
+        <img src="team-3.jpg" alt="Team Member 3">
+        <h4>John Kammody</h4>
+        <p>Owner</p>
+        <p>About: Fullstack Developer, Specialized in backend development</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; UsourceFul 2024</p>
+  </footer>
+</body>
+</html>
