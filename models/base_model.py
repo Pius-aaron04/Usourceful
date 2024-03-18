@@ -26,8 +26,8 @@ class BaseModel:
 
     if getenv('USOURCE_STORAGE') == 'db':
         id = Column(String(60), primary_key=True, default=str(uuid4()))
-        created_at = Column(DateTime, default=datetime.utcnow())
-        updated_at = Column(DateTime, default=datetime.utcnow())
+        created_at = Column(DateTime, default=datetime.utcnow)
+        updated_at = Column(DateTime, default=datetime.utcnow)
     else:
         id = str(uuid4())
         created_at = datetime.utcnow()
