@@ -1,0 +1,14 @@
+
+footer{
+    position: fixed;
+    bottom: 0%;
+    max-height: 50px;
+    border-top: solid 2px goldenrod;
+    margin: 0;
+    width: 100%;
+    background-color: #dddddd;
+  }
+  
+  footer > p{
+    text-align: center;
+  }

@@ -1,0 +1,201 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  position: fixed;
+  top: 0%;
+  background-color: #282c34;
+  height: fit-content;
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+ 
+.App-header h1{
+  margin: 10px 20px 10px 0;
+  font-size: 22px;
+}
+
+.App-header h1 a{
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.nav-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 70%;
+  margin-right: 20px;
+  margin-left: 20px;
+  align-items: center;
+  font-size: 16px;
+}
+
+.nav-bar li{
+  list-style: none;
+  display: block;
+}
+
+.nav-icon{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 50%;
+}
+
+.nav-icon a{
+  text-decoration: none;
+  color: white;
+}
+
+.nav-icon a:hover{
+  text-decoration: underline;
+  text-decoration-color: rgb(51, 64, 238);
+}
+
+#logout-button{
+  background-color: rgb(199, 31, 31);
+  border: solid 1px #705252;
+  border-radius: 3px;
+  height: 30px;
+  width: 70px;
+}
+
+.racks-container{
+  margin-top: 100px;
+}
+
+.form-container{
+  margin: 150px auto 0 auto;
+  border: solid 1px grey;
+  box-shadow: 5px 5px 5px grey;
+  width: 80%;
+}
+
+span#signin-up{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+span#signin-up button{
+  margin: 0;
+}
+
+form{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 50%;
+  max-width: 60%;
+  margin: 10px auto;
+  padding-top: 10px;
+}
+
+form label, form input{
+  display: block;
+}
+form  label {
+  text-justify: left;
+}
+
+form.login-form{
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+form input{
+  margin: 10px auto;
+  height: 22px;
+  width: 80%;
+  border: solid 2px grey;
+  border-radius: 5px;
+}
+
+.login-form input{
+  margin: 10px auto;
+  max-width: 60%;
+}
+
+
+input[type="submit"], #login-form input[type="submit"]{
+  width: 30%;
+  max-width: 70px;
+}
+
+
+
+/* Side bar styling */
+
+#menu-button{
+  width: fit-content;
+  border: none;
+}
+
+#menu-button ion-icon{
+  margin: 0;
+}
+
+.side-bar{
+  top: 47px;
+  position: fixed;
+  display: flex; /* Make the sidebar a flex container */
+  flex-direction: column; /* Stack items vertically */
+  width: 200px; /* Set the sidebar width (adjust as needed) */
+  background-color: #f0f0f0; /* Optional background color */
+  gap: 5px;
+  overflow-y: scroll;
+}
+
+
+.top-section ul li {
+  width: 80%; /* Set each list item to 80% of the container width */
+  margin: 10px auto; /* Center items horizontally within the container */
+  padding: 5px; /* Add some padding for spacing */
+  border: 1px solid #ddd; /* Optional border between items */
+  border-radius: 5px;
+  list-style-type: none;
+  text-align: center;
+}
+
+.top-section ul li:hover{
+  background-color: #8D77FE;
+}
+
+.top-section ul{
+  padding: 0;
+}
+
+/* .top-section ul li:last-child {  Remove border for the last item 
+  border-bottom: none; }*/
+
+.top-section ul a {
+  color: black; /* Text color for links */
+  text-decoration: none; /* Remove underline from links */
+}
+
+/* making side-bar collapsible */
+
+.side-bar.closed{
+ width:fit-content;
+}
+
+
+ion-icon{
+  font-size: 24px;
+  margin-left: 10px;
+}
