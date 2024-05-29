@@ -71,6 +71,9 @@ class BaseModel:
         attributes = self.__dict__.copy()
         attributes['__class__'] = self.__class__.__name__
 
+        if self.__class__.__name__ in ("Rack", "Library"):
+            attributes['num_items'] = self.num_items
+
         if 'created_at' in attributes:
             attributes['created_at'] = attributes['created_at'].strftime(time)
         if 'updated_at' in attributes:

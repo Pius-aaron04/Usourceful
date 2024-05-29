@@ -38,12 +38,10 @@ def create_resources():
     elif 'content' not in data:
         return jsonify({'error': 'content missing'}), 400
 
-    if data['type'] in storage.classes:
-        resource = storage.classes[data['type']](**data)
-        print(resource)
-        resource.save()
-        return jsonify(resource.to_dict()), 201
-    return {"error": "Resource type is missing"}, 400
+    resource = Resource(**data)
+    print(resource)
+    resource.save()
+    return jsonify(resource.to_dict()), 201
 
 @app_views.route('resources/<resource_id>', methods=['GET']
                  , strict_slashes=False)
@@ -88,8 +86,8 @@ def delete_resource(resource_id):
     if not resource:
         abort(404)
 
-    resource.delete
-    return 200
+    resource.delete()
+    return {'status': 'done'}, 200
 
 @app_views.route('resource/upload', methods=['POST'])
 def save_resource_file():

@@ -8,7 +8,7 @@ from decouple import config
 from models.base_model import Base
 from models.user import User
 from models.library import Library
-from models.resource import Resource, Video, Text, Image
+from models.resource import Resource # Video, Text, Image
 from models.review import Review, RackReview, ResourceReview
 from models.rack import Rack
 from models.sub_rack import Subrack
@@ -29,10 +29,10 @@ class DBStorage:
                 'Review': Review,
                 'Recommendation': Recommendation,
                 'RackReview': RackReview,
-                'ResourceReview': ResourceReview,
-                'Video': Video,
-                'Image': Image,
-                'Text': Text
+                'ResourceReview': ResourceReview
+                # 'Video': Video,
+                # 'Image': Image,
+                # 'Text': Text
               }
 
     def __init__(self):

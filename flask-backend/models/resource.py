@@ -33,9 +33,9 @@ class Resource(BaseModel, Base):
         content = Column(Text)
         type = Column(String(30))
 
-        __mapper_args__ = {
-            'polymorphic_identity': 'resource'
-        }
+        # __mapper_args__ = {
+        #     'polymorphic_identity': 'resource'
+        # }
 
     else:
         title = ""
@@ -48,46 +48,46 @@ class Resource(BaseModel, Base):
         super().__init__(*args, **kwargs)
 
 
-class Video(Resource):
-    """
-    Define video resources table for video contents
-    """
-    if storage_type == 'db':
-        __tablename__ = 'videos'
-        id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
-        video_url = Column(String(255), nullable=False)
-        source_type = Column(String(30), default='URL')
+# class Video(Resource):
+#     """
+#     Define video resources table for video contents
+#     """
+#     if storage_type == 'db':
+#         __tablename__ = 'videos'
+#         id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
+#         video_url = Column(String(255), nullable=False)
+#         source_type = Column(String(30), default='URL')
 
-    def __init__(self, *args, **kwargs):
-        """ Instantiate Object """
-        super().__init__(*args, **kwargs)
-
-
-class Image(Resource):
-    """
-    Define Image resources table for Image contents
-    """
-
-    if storage_type == 'db':
-        __tablename__ = 'images'
-        id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
-        image_url = Column(String(255), nullable=False)
-        source_type = Column(String(30), default='URL')
-
-    def __init__(self, *args, **kwargs):
-        """ Instantiate Object """
-        super().__init__(*args, **kwargs)
+#     def __init__(self, *args, **kwargs):
+#         """ Instantiate Object """
+#         super().__init__(*args, **kwargs)
 
 
-class Text(Resource):
-    """
-    Define Text resourcestable for text contents
-    """
+# class Image(Resource):
+#     """
+#     Define Image resources table for Image contents
+#     """
 
-    if storage_type == 'db':
-        __tablename__ = 'texts'
-        id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
+#     if storage_type == 'db':
+#         __tablename__ = 'images'
+#         id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
+#         image_url = Column(String(255), nullable=False)
+#         source_type = Column(String(30), default='URL')
 
-    def __init__(self, *args, **kwargs):
-        """ Instantiate Object """
-        super().__init__(*args, **kwargs)
+#     def __init__(self, *args, **kwargs):
+#         """ Instantiate Object """
+#         super().__init__(*args, **kwargs)
+
+
+# class Text(Resource):
+#     """
+#     Define Text resourcestable for text contents
+#     """
+
+#     if storage_type == 'db':
+#         __tablename__ = 'texts'
+#         id = Column(String(60), ForeignKey('resources.id'), primary_key=True)
+
+#     def __init__(self, *args, **kwargs):
+#         """ Instantiate Object """
+#         super().__init__(*args, **kwargs)

@@ -55,7 +55,7 @@ class Rack(BaseModel, Base):
         super().__init__(*args, **kwargs)
 
     @property
-    def num_resources(self):
+    def num_items(self):
         """
         calculates number of resources in a rack
         """

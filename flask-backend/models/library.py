@@ -40,7 +40,7 @@ class Library(BaseModel, Base):
                 os.makedirs(os.path.join(user_dir, path))
 
     @property
-    def num_racks(self):
+    def num_items(self):
         """
         calculates number of racks in the library
         """
