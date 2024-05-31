@@ -5,7 +5,7 @@ const UserContext = createContext({
   count: 0,
   user: { name: '', email: '' }, // Example data object
   isLoggedIn: false,
-  // racks: [],
+  racks: [],
   setValue: () => {}, // Update function
 });
 

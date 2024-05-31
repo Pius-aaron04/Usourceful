@@ -115,3 +115,14 @@ def save_resource_file():
             return jsonify({"error": "upload failed"}), 200
         resource = storage.classes[typ](**data)
     return jsonify({"message": "upload successful"}), 200
+
+@app_views.route('resources', strict_slashes=False, methods=['GET'])
+def get_em():
+    """
+    routes public racks.
+    """
+
+    racks = [rack.to_dict() for rack in storage.all(Resource).values() if rack.public]
+
+    return jsonify(racks)
+

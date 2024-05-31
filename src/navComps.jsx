@@ -40,30 +40,30 @@ function SideBar() {
             <>
                <span className='top-section'>
             <ul>
-              <li>
+              <li onClick={() => navigate('/home')}>
                 <Link to="/home">Home <ion-icon name="home-outline"></ion-icon></Link>
               </li>
-              <li>
+              <li onClick={() => navigate('/xplore')}>
                 <Link to="/xplore">Xplore <ion-icon name="planet-outline"></ion-icon></Link>
               </li>
-              <li>
+              <li onClick={() => {isLoggedIn ? navigate('/favourites') : navigate("/login")}}>
                 <Link to="/favourites">Favourites <ion-icon name="star-half-outline"></ion-icon></Link>
               </li>
-              <li>
+              {/* <li onClick={() => navigate('/community')}>
                 <Link to="/community">Community <ion-icon name="people-circle-outline"></ion-icon></Link>
-              </li>
-              <li>
+              </li> */}
+              <li onClick={() => navigate('/about')}>
                 <Link to="/about">About <ion-icon name="map-outline"></ion-icon></Link>
               </li>
-              <li>
+              {/* <li onClick={() => navigate('/blog')}>
                 <Link to="/blog">Blog <ion-icon name="laptop-outline"></ion-icon></Link>
-              </li>
-              <li>
+              </li> */}
+              <li onClick={() => {isLoggedIn ? navigate('/create') : navigate("/login")}}>
                 <Link to="/create">Create <ion-icon name="add-outline"></ion-icon></Link>
               </li>
             </ul>
           </span>
-            <button onClick={handleLogout}>Log out</button>
+            <button onClick={isLoggedIn ? handleLogout : () => navigate("/login")}>{isLoggedIn ? 'Log out' : 'Log in'}</button>
             </>
             }
         </nav>

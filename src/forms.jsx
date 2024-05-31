@@ -125,29 +125,35 @@ export function SignIn() {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-        try {
-            const response = await fetch('http://0.0.0.0:5000/api/v1/auth/me', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(inputs)
-            });
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://0.0.0.0:5000/api/v1/auth/me', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(inputs)
+                });
     
-            if (!response.ok) {
-                throw new Error('Registration Failed');
-            }
+                if (!response.ok) {
+                    throw new Error('Registration Failed');
+                }
     
-            const data = await response.json();
-            setFetchedData(data); // Temporarily store fetched data
-        } catch (error) {
-            setError(error.message);
-            console.log(error);
+                const data = await response.json();
+            // setFetchedData(data); // Temporarily store fetched data
+                setValue({ user: data, isLoggedIn: true });
+            } catch (error){setError(error.message)}
         }
+        fetchData()
+        setTimeout(() => navigate("/home"), 1000);
+        // } catch (error) {
+        //     setError(error.message);
+        //     console.log(error);
+    
     
         // Update context state using fetchedData (if successful)
-        if (fetchedData) {
-            setValue({ user: fetchedData, isLoggedIn: true });
-            navigate("/home");
-        }
+        // if (fetchedData) {
+        //     setValue({ user: fetchedData, isLoggedIn: true });
+        //     navigate("/home");
+        // }
     };
     
     return (
@@ -174,7 +180,7 @@ export function SignIn() {
                     value={inputs.password || ""}
                     onChange={handleInputChange}
                     required/>
-                </label>
+                </label>    
                 <input type='submit' value="Log in"/>
             </form>
             <p><a href="/reset/password">Forgot your password?</a> or <Link to="/signup">Sign Up</Link></p>

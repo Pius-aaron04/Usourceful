@@ -51,8 +51,8 @@
 .nav-icon{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  width: 50%;
+  justify-content: space-between;
+  width: 75%;
 }
 
 .nav-icon a{

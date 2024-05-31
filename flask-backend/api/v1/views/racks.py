@@ -129,3 +129,5 @@ def delete_rack(rack_id):
         abort(404)
 
     rack.delete()
+
+    return {'message': 'rack deleted'}, 200

@@ -13,6 +13,7 @@ const Header = ({signin}) => {
           <Link to="/home">Home</Link>
           {/* <a href="./pages/community">Community</a> */}
           <Link to="/blog">Blog</Link>
+          <Link to="/xplore">Xplore</Link>
         </span>
       </nav>
     </header>

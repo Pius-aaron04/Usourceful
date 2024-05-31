@@ -2,13 +2,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import SideBar from '../navComps';
 import './create.css';
 import UserContext from '../context';
+import { useNavigate } from 'react-router-dom';
+
 
 function CreatePage (){
 
     const [content, setContent] = useState("Rack");
     const {user, racks, setValue} = useContext(UserContext);
-    const [isChecked, setIsChecked] = useState(false);
-    const [inputs, setInputs] = useState({library_id: user.library_id, public: isChecked});
+    const [inputs, setInputs] = useState({library_id: user.library_id, public: false});
     const [message, setMessage] = useState(null);
 
 
@@ -18,12 +19,10 @@ function CreatePage (){
         const name = event.target.name;
         const value = event.target.value;
         if (name === "public"){
-            setIsChecked(!isChecked);
-            setInputs({...inputs, public: isChecked});
+            setInputs({...inputs, public: !inputs.public});
         }else{
         setInputs(values => ({...values, [name]: value}));
         }
-        console.log(inputs);
     }
 
     const handleSubmit = (event) =>{
@@ -32,32 +31,34 @@ function CreatePage (){
         // Make Api request
 
         if (content === 'Rack'){
-            fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
+            const fetchRack = async () => {
+                const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
-                body: JSON.stringify(inputs)
-            }).then(response => response.json())
-                .then(data => {
-                    setMessage(`Create ${inputs.name} successfully`);
-                    setValue({racks: data});
+                body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
+
+                const data = await response.json();
+
+                if (response.ok){
+                    setMessage(`Create ${inputs.name} successfully`)
+                    setTimeout(() => { setValue({racks: [...racks, data]}); console.log(racks)}, 2000)
                 }
-            ).catch(err => {setMessage(err.message); console.error(err)});
+            }
+            fetchRack();
         } else {
             fetch(`http://0.0.0.0:5000/api/v1/resources`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(inputs)
             }).then(response => response.json())
-                .then(data => { 
-                    setMessage(`Create ${inputs.title} successfully`);
-            }).catch(err => {setMessage(err.message); console.error(err)});
+            .catch(err => {setMessage(err.message); console.error(err)});
         }
         console.log(inputs);
         // notify user on create status
     }
     const handleCreateSwitch = (name) => {
         setContent(name);
-        setInputs({});
+        setInputs({library_id: user.library_id, public: false});
     }
     return(
         <>
@@ -97,8 +98,9 @@ function CreatePage (){
             {
                 content !== "Rack" &&
                 <>
-                <select name="rack_id" onChange={handleInputChange}>
-                    <option disabled>Choose destination rack</option>
+                <label htmlFor='destination-choice'>Choose rack destination
+                <select id="destination-choice" name="rack_id" onChange={handleInputChange}>
+                    <option >Choose destination rack</option>
                     {racks.map(
                         (rack) => (<option
                                     key={rack.id}
@@ -106,17 +108,23 @@ function CreatePage (){
                                     name="rack_id">{rack.name}
                                     </option>))}
                 </select>
-                <select name="type" onChange={handleInputChange}>
-                    <option selected>Choose resource type</option>
-                    <option value="URL">Website or resource link</option>
-                    <option value="YouTubeURL">YouTube Video Link</option>
-                    <option value="Text">Text</option>
+                </label>
+                <label htmlFor='resource-type'>
+                <select id="resource-type" name="type" onChange={handleInputChange}>
+                    <option >Choose resource type</option>
+                    <option name="type" value="URL">Website or resource link</option>
+                    <option name="type" value="YouTubeURL">YouTube Video Link</option>
+                    <option value="Text" name="type">Text</option>
                 </select>
+                </label>
+                <label htmlFor="resource-content"> Resource content
                 <textarea 
+                id="resource-content"
                 name = "content"
                 onChange={handleInputChange}
                 placeholder='write your content here'
                 value={ inputs.content || "" } ></textarea>
+                </label>
                 </>
             }
             <label className="public" htmlFor='public'>
@@ -126,7 +134,7 @@ function CreatePage (){
                 type='checkbox'
                 name='public'
                 onChange={handleInputChange}
-                checked={isChecked}
+                checked={inputs.public}
                 />Make Public</label>
             <input type="submit" value="Create" />
         </form>
@@ -134,5 +142,99 @@ function CreatePage (){
         </>
     )
 }
+
+
+// Short cut button at for creating resources or racks
+
+export function CreateRack ({user_id}){
+    const [isOpen, setIsOpen] = useState(false);
+    const {user, racks, setValue} = useContext(UserContext);
+    const [inputs, setInputs] = useState({library_id: user.library_id, public: false});
+    const [message, setMessage] = useState(null);
+    const navigate = useNavigate();
+
+    const toggleCreateForm = () => {
+        setIsOpen(!isOpen);
+    }
+
+    const handleInputChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        if (name === "public"){
+            setInputs({...inputs, public: !inputs.public});
+        }else{
+        setInputs(values => ({...values, [name]: value}));
+        }
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (isOpen && !event.target.closest('.open') && !event.target.closest('#pop-up')) {
+            setIsOpen(false); // Close sidebar if clicked outside
+          }
+        };
+    
+        // Add event listener on mount, remove on unmount
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+      }, [isOpen, racks]);
+
+      const handleSubmit = (event) =>{
+        event.preventDefault();
+        console.log(inputs);
+        // Make Api request
+
+    
+        const fetchRack = async () => {
+            const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
+
+            const data = await response.json();
+
+            if (response.ok){
+                setMessage(`Create ${inputs.name} successfully`)
+                navigate("/home")
+            }
+        }
+        fetchRack()
+    }
+
+    return(
+        <>
+        <div className={isOpen ? 'open' : 'close'}>
+            <h3>Create new Rack</h3>
+            <form onSubmit={handleSubmit} className='create-form'>
+            {message && <i>{message}</i>}
+            <label htmlFor='name'>Rack name
+                <input
+                    type="text"
+                    id='name'
+                    name='name'
+                    value={inputs.name || ""}
+                    onChange={handleInputChange}
+                    required
+                />
+            </label>
+            <label htmlFor={'description'}>Rack description
+                <input
+                    id="description"
+                    type='text'
+                    name="description"
+                    value={inputs.description || ""}
+                    onChange={handleInputChange}
+                />
+            </label>
+                <input type="submit" value="Add"/>
+            </form>
+        </div>
+        <button onClick={toggleCreateForm} id='pop-up'>
+            {isOpen ? <ion-icon name="close-outline"></ion-icon> : <ion-icon name="add-outline"></ion-icon>}
+        </button>
+        </>
+    );
+}
+
 
 export default CreatePage;

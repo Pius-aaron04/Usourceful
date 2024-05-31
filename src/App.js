@@ -15,6 +15,7 @@ import { SignUp } from './forms';
 import UserContext from './context';
 import Landing from './pages/landingPage'
 import { Rack } from './racksComp';
+import { XploreRacks } from './pages/Xplore';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Header />
         {/* <SideBar /> Include the SideBar here */}
         <UserContext.Provider value={{...state, setValue: updateState}}>
+          {/* <CreateRack /> */}
           <Routes>
             <Route path="/xplore" element={<Xplore />} />
             <Route path="/favourites" element={<Favourites />} />
@@ -45,6 +47,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/" exact index element={<Landing />} />
             <Route path="/my_racks/:rackId" element={<Rack />} />
+            <Route path="/xplore/racks/:rackId" element={<XploreRacks />} />
           </Routes>
         </UserContext.Provider>
       </div>
