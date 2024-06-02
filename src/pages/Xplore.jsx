@@ -1,35 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import SideBar from "../navComps";
 import { Resource } from "../racksComp";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import UserContext from "../context";
 
 const Xplore = () => {
 
     const [publicRacks, setPublicRacks] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const {isLoggedIn} = useContext(UserContext);
 
-    useEffect(
-        () => {
-            fetch('http://0.0.0.0:5000/api/v1/racks')
-                .then(response => response.json()).then(data => {if (data.length > 1) setPublicRacks(data)})
-    });
+ 
+    useEffect( () => {
+            const fetchPublicRacks = async () => {
+            const response = await fetch('http://localhost:5000/api/v1/racks');
+            if (response.ok){
+                const data = await response.json();
+                setTimeout(() => {setPublicRacks(data)}, 2000);
+            }
+        };
 
+            fetchPublicRacks();
+}, []);
     return(
         <>
         <SideBar />
-        <h1 style={
-            {marginTop: "150px"}
-        }>Xplore</h1>
+        <section style={{
+            marginTop: "100px",
+            padding: "10px"}} className="intro">
+        <h1>Xplore</h1>
         <p>Checkout resources and collections provided by other users.</p>
         <h4>Racks</h4>
+        </section>
         <section className="racks-section">
             {publicRacks.map((rack) => 
                 <div className="rack-preview" onClick={()=>{navigate(`/xplore/racks/${rack.id}`)}}>
-                <h3 className="rack-title"><Link id="view-button" to={`/xplore/racks/${rack.id}`}>{rack.name}</Link></h3>
+                <h3 className="rack-title">{rack.name}</h3>
                 <div className="rack-info">
                     <p className="rack-desc">{rack.description}</p>
                     <span className="extra-desc">
-                        <p>Items: {rack.items}</p>
+                        <p>Items: {rack.num_items}</p>
                         <Link id="view-button" to={`/xplore/racks/${rack.id}`}>Open Rack</Link>
                     </span>
                 </div>

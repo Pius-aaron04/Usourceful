@@ -12,7 +12,7 @@ const Header = ({signin}) => {
           <Link to="/about">About</Link>
           <Link to="/home">Home</Link>
           {/* <a href="./pages/community">Community</a> */}
-          <Link to="/blog">Blog</Link>
+          {/* <Link to="/blog">Blog</Link> */}
           <Link to="/xplore">Xplore</Link>
         </span>
       </nav>

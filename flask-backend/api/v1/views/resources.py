@@ -53,7 +53,9 @@ def get_resource(resource_id):
     resource = storage.get(Resource, resource_id)
 
     if resource:
-        return jsonify(resource.to_dict()), 200
+        data = resource.to_dict()
+        data['userId'] = resource.rack.library.user_id
+        return jsonify(data), 200
     return jsonify({'error': 'resource not found'})
 
 

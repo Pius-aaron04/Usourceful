@@ -1,11 +1,17 @@
 .home-content, .rack-content{
+    display: flex;
+    flex-direction: column;
     margin: 60px auto 25px auto;
     width: 100%;
 }
-
+.rack-content > h4{
+    width: 100%;
+    height: fit-content;
+    font-size: 20px;
+    text-justify: left;
+}
 .rack-preview, .resource-preview{
-    max-height: fit-content;
-    height: 200px;
+    height: fit-content;
     border: solid 2px grey;
     width: 400px;
     margin: 10px;
@@ -48,6 +54,10 @@
 .resource-title > a:hover, .rack-desc > a:hover{
     text-decoration: dashed;
     color: #1D4CAA;
+}
+
+.YT-vids{
+    margin-top: 50px;
 }
 .extra-desc p{
     width: fit-content;

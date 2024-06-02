@@ -45,9 +45,9 @@ export function SignUp() {
         <>
         <Header sigin={false}/>
         <div className="form-container">
-          <h3>Signup</h3>
+          <h2>Create an account</h2>
           <form onSubmit={handleSubmit}>
-                <label htmlFor="firstname">Firstname:
+                <label htmlFor="firstname">Firstname
                     <input 
                     value={inputs.firstname || ""}
                     name="firstname"
@@ -55,7 +55,7 @@ export function SignUp() {
                     onChange={handleInputChange}
                     required />
                 </label>
-                <label htmlFor='lastname'>Lastname:
+                <label htmlFor='lastname'>Lastname
                     <input
                     type="text"
                     name="lastname"
@@ -63,7 +63,7 @@ export function SignUp() {
                     onChange={handleInputChange}
                     required/>
                 </label>
-                <label htmlFor='username'>Username:
+                <label htmlFor='username'>Username
                     <input
                     type="text"
                     id="username"
@@ -81,7 +81,7 @@ export function SignUp() {
                     onChange={handleInputChange}
                     required/>
                 </label>
-                <label htmlFor="password" >Password:
+                <label htmlFor="password" >Password
                     <input
                     type="password"
                     id="password"
@@ -90,7 +90,7 @@ export function SignUp() {
                     onChange={handleInputChange}
                     required/>
                 </label>
-                <label htmlFor='confirm-password'>Confirm password:
+                <label htmlFor='confirm-password'>Confirm password
                     <input
                     id='confirm-password'
                     type="password"
@@ -100,7 +100,7 @@ export function SignUp() {
                     required/>
                 </label>
                 <input value="Sign up" type='submit' />
-                <p>have an account? <Link to="/login">Log in</Link></p>
+                <p>Do you have an account? <Link to="/login">Log in</Link></p>
             </form>
         </div>
         </>
@@ -182,8 +182,8 @@ export function SignIn() {
                     required/>
                 </label>    
                 <input type='submit' value="Log in"/>
+                <p><a href="/reset/password">Forgot your password?</a> or <Link to="/signup">Sign Up</Link></p>
             </form>
-            <p><a href="/reset/password">Forgot your password?</a> or <Link to="/signup">Sign Up</Link></p>
         </div>
         </>
     )

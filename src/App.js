@@ -14,7 +14,7 @@ import SignIn from './forms';
 import { SignUp } from './forms';
 import UserContext from './context';
 import Landing from './pages/landingPage'
-import { Rack } from './racksComp';
+import { Rack, ResourceView } from './racksComp';
 import { XploreRacks } from './pages/Xplore';
 
 
@@ -48,6 +48,7 @@ function App() {
             <Route path="/" exact index element={<Landing />} />
             <Route path="/my_racks/:rackId" element={<Rack />} />
             <Route path="/xplore/racks/:rackId" element={<XploreRacks />} />
+            <Route path="/resources/:resourceId" element={<ResourceView />} />
           </Routes>
         </UserContext.Provider>
       </div>

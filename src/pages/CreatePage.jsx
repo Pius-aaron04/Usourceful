@@ -40,7 +40,7 @@ function CreatePage (){
                 const data = await response.json();
 
                 if (response.ok){
-                    setMessage(`Create ${inputs.name} successfully`)
+                    setMessage(`${inputs.name} created successfully`)
                     setTimeout(() => { setValue({racks: [...racks, data]}); console.log(racks)}, 2000)
                 }
             }
@@ -52,13 +52,14 @@ function CreatePage (){
                 body: JSON.stringify(inputs)
             }).then(response => response.json())
             .catch(err => {setMessage(err.message); console.error(err)});
+            setMessage(`${inputs.name} created succesfully`)
         }
-        console.log(inputs);
         // notify user on create status
     }
     const handleCreateSwitch = (name) => {
         setContent(name);
         setInputs({library_id: user.library_id, public: false});
+        setMessage(null);
     }
     return(
         <>
@@ -206,27 +207,36 @@ export function CreateRack ({user_id}){
         <div className={isOpen ? 'open' : 'close'}>
             <h3>Create new Rack</h3>
             <form onSubmit={handleSubmit} className='create-form'>
-            {message && <i>{message}</i>}
-            <label htmlFor='name'>Rack name
-                <input
-                    type="text"
-                    id='name'
-                    name='name'
-                    value={inputs.name || ""}
-                    onChange={handleInputChange}
-                    required
-                />
-            </label>
-            <label htmlFor={'description'}>Rack description
-                <input
-                    id="description"
-                    type='text'
-                    name="description"
-                    value={inputs.description || ""}
-                    onChange={handleInputChange}
-                />
-            </label>
-                <input type="submit" value="Add"/>
+                {message && <i>{message}</i>}
+                <label htmlFor='name'>Rack name
+                    <input
+                        type="text"
+                        id='name'
+                        name='name'
+                        value={inputs.name || ""}
+                        onChange={handleInputChange}
+                        required
+                    />
+                    </label>
+                    <label htmlFor={'description'}>Rack description
+                    <input
+                        id="description"
+                        type='text'
+                        name="description"
+                        value={inputs.description || ""}
+                        onChange={handleInputChange}
+                    />
+                    </label>
+                    <label className="public" htmlFor='public'>
+                        <input
+                        className="public"
+                        id='public'
+                        type='checkbox'
+                        name='public'
+                        onChange={handleInputChange}
+                        checked={inputs.public}
+                        />Make Public</label>
+                    <input type="submit" value="Add"/>
             </form>
         </div>
         <button onClick={toggleCreateForm} id='pop-up'>

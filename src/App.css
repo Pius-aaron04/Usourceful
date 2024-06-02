@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: 50px;
 }
 
 .App-logo {
@@ -37,7 +38,7 @@
   flex-direction: row;
   justify-content: space-between;
   width: 70%;
-  margin-right: 20px;
+  margin-right: 0;
   margin-left: 20px;
   align-items: center;
   font-size: 16px;
@@ -78,7 +79,7 @@
 }
 
 .form-container{
-  margin: 150px auto 0 auto;
+  margin: 150px auto 100px auto;
   border: solid 1px grey;
   box-shadow: 5px 5px 5px grey;
   width: 80%;
@@ -96,11 +97,11 @@ span#signin-up button{
 
 form{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-evenly;
   width: 50%;
-  max-width: 60%;
+  max-width: 500px;
   margin: 10px auto;
   padding-top: 10px;
 }
@@ -120,24 +121,42 @@ form.login-form{
 
 form input{
   margin: 10px auto;
-  height: 22px;
-  width: 80%;
+  height: 30px;
+  width: 70%;
   border: solid 2px grey;
   border-radius: 5px;
+  padding-left: 5px;
 }
 
 .login-form input{
   margin: 10px auto;
+  min-width: 50%;
   max-width: 60%;
 }
 
 
-input[type="submit"], #login-form input[type="submit"]{
-  width: 30%;
-  max-width: 70px;
+form input[type="submit"], #login-form input[type="submit"]{
+  width: 50%;
+  margin: 10px auto;
+  height: 30px;
+  background-color: rgb(75, 228, 182);
+  border-radius: 10px;
 }
 
+form input[type="submit"]:hover, #login-form input[type="submit"]:hover{
+  opacity: 80%;
+  cursor: pointer;
+}
 
+.form-container form a{
+  text-decoration: none;
+  color: blue;
+}
+
+.form-container form a:hover{
+  background-color: #8D77FE;
+  color: #282c34;
+}
 
 /* Side bar styling */
 
