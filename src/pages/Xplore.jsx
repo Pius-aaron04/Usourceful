@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import SideBar from "../navComps";
 import { Resource } from "../racksComp";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import UserContext from "../context";
 
 const Xplore = () => {
 
     const [publicRacks, setPublicRacks] = useState([]);
     const navigate = useNavigate();
-    const {isLoggedIn} = useContext(UserContext);
 
  
     useEffect( () => {
@@ -58,14 +56,14 @@ export const XploreRacks = () => {
 
    useEffect(() =>{
         const fetchRack = async () =>{
-            const response = await fetch(`http://0.0.0.0:5000/api/v1/racks/${rackId}`)
+            const response = await fetch(`http://192.168.8.187:5000/api/v1/racks/${rackId}`)
             const data = await response.json()
-            setTimeout(() => setRack(data), 2000);
+            setRack(data)
         }
        const fetchResources = async () =>{
-           const response = await fetch(`http://0.0.0.0:5000/api/v1/racks/${rackId}/resources`)
+           const response = await fetch(`http://192.168.8.187:5000/api/v1/racks/${rackId}/resources`)
            const data = await response.json()
-           setTimeout(() => setResources(data), 2000);
+           setResources(data);
        }
        fetchRack()
        fetchResources();
@@ -87,10 +85,10 @@ export const XploreRacks = () => {
                     key={resource.id}
                     />))}
             </div>
-            <h4>Youtube Vids</h4>
+            {/* <h4>Youtube Vids</h4>
             <div>
-                {resources.map((resource) => {resource.type === 'YouTubeURL' && <Resource />})}
-            </div>
+                {resources.map((resource) => {resource.type === 'YouTubeURL' && <Resource />}))}
+            </div> */}
         </div>
         </>
     )

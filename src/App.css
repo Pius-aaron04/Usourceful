@@ -170,7 +170,7 @@ form input[type="submit"]:hover, #login-form input[type="submit"]:hover{
 }
 
 .side-bar{
-  top: 47px;
+  top: 57px;
   position: fixed;
   display: flex; /* Make the sidebar a flex container */
   flex-direction: column; /* Stack items vertically */

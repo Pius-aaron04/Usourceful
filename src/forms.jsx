@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Header from './header';
 import { Link, useNavigate } from 'react-router-dom';
 import UserContext from './context';
@@ -45,6 +45,7 @@ export function SignUp() {
         <>
         <Header sigin={false}/>
         <div className="form-container">
+            {error && <p style={{color: "red"}}>{error}</p>}
           <h2>Create an account</h2>
           <form onSubmit={handleSubmit}>
                 <label htmlFor="firstname">Firstname
@@ -108,14 +109,15 @@ export function SignUp() {
 }
 
 export function SignIn() {
-    const {user, isLoggedIn, setValue} = useContext(UserContext)
+    const {isLoggedIn, setValue} = useContext(UserContext)
     const [inputs, setInputs] = useState({});
     const navigate = useNavigate();
     const [error, setError] = useState(null);
-    const [fetchedData, setFetchedData] = useState(null);
 
 
+    useEffect( () => {
     if (isLoggedIn) return (navigate("/home"));
+    }, [isLoggedIn, navigate])
 
     const handleInputChange = (event) => {
         const name = event.target.name;
@@ -134,26 +136,15 @@ export function SignIn() {
                 });
     
                 if (!response.ok) {
-                    throw new Error('Registration Failed');
+                    throw new Error('Log in Failed');
                 }
     
                 const data = await response.json();
-            // setFetchedData(data); // Temporarily store fetched data
                 setValue({ user: data, isLoggedIn: true });
             } catch (error){setError(error.message)}
         }
         fetchData()
         setTimeout(() => navigate("/home"), 1000);
-        // } catch (error) {
-        //     setError(error.message);
-        //     console.log(error);
-    
-    
-        // Update context state using fetchedData (if successful)
-        // if (fetchedData) {
-        //     setValue({ user: fetchedData, isLoggedIn: true });
-        //     navigate("/home");
-        // }
     };
     
     return (
@@ -163,6 +154,7 @@ export function SignIn() {
             <h2>Welcome!</h2>
             <p>Login to your account</p>
             <form onSubmit={handleSubmit}  className="login-form">
+                {error && <p style={{color: "red"}}>{error}</p>}
                 <label htmlFor="username">Username:
                     <input
                     type="text"

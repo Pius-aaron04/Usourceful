@@ -181,7 +181,7 @@ def create_rack_resource(user_id, rack_id):
 
 
 @app_views.route('users/<user_id>/library/racks/<rack_id>/resources/'+\
-                 '<resource_id>', methods=['GET'], strict_slashes=False)
+                 '<resource_id>', methods=['GET', 'PUT'], strict_slashes=False)
 def get_del_rack_resource(user_id, rack_id, resource_id):
     """
     gets or delete a resource
@@ -195,6 +195,17 @@ def get_del_rack_resource(user_id, rack_id, resource_id):
     if not (all((user, resource, rack)) and \
             (rack in user.library.racks and resource in rack.resources)):
         abort(404)
+
+    if request.method == 'PUT':
+        if resource.rack.library.user_id != user_id:
+            return {"error": "Unauthorized operation"}, 400
+        data = request.get_json()
+        if not data:
+            return {"error": "Unsupported operation(update data missing)"}
+        resource.update(**data)
+        resource.save()
+        return jsonify(resource.to_dict()), 200
+
     return jsonify(resource.to_dict()), 200
 
 

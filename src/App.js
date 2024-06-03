@@ -1,7 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import SideBar from './navComps'; // Import SideBar
 import Home from './pages/Home'; // Import your page components
 import Xplore from './pages/Xplore';
 import Favourites from './pages/Favourites';
@@ -31,10 +30,10 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
         {/* <SideBar /> Include the SideBar here */}
         <UserContext.Provider value={{...state, setValue: updateState}}>
           {/* <CreateRack /> */}
+          <Header />
           <Routes>
             <Route path="/xplore" element={<Xplore />} />
             <Route path="/favourites" element={<Favourites />} />

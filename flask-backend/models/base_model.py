@@ -80,6 +80,8 @@ class BaseModel:
             attributes['updated_at'] = attributes['updated_at'].strftime(time)
         if '_sa_instance_state' in attributes:
             del attributes['_sa_instance_state']
+        if 'rack' in attributes:
+            del attributes['rack']
         del attributes['__class__']
         return attributes
 

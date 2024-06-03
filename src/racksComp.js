@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './pages/Home.css';
 import SideBar from "./navComps";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import UserContext from './context';
 import YoutubeEmbed from './Youtube';
+
+
+// Resource Component displaying resource Info
+
 
 export const Resource = ({content, title, desc, type, handleDelete, id}) => {
 
@@ -16,9 +20,9 @@ export const Resource = ({content, title, desc, type, handleDelete, id}) => {
 
     return(
         <div className="resource-preview">
-            <h3 className="resource-title"><a target='_blank' href={content}>{title}</a></h3>
+            <h3 className="resource-title"><a target='_blank' rel="noreferrer" href={content}>{title}</a></h3>
             <div className="resource-info">
-                <p className="rack-desc"><a target='_blank' href={content}>{desc}</a></p>
+                <p className="rack-desc"><a target='_blank' rel="noreferrer" href={content}>{desc}</a></p>
                 <span className="extra-desc">
                     <p className="resource-type">type: {type}</p>
                     <Link to={`/resources/${id}`}>Open resource</Link>
@@ -30,7 +34,9 @@ export const Resource = ({content, title, desc, type, handleDelete, id}) => {
 }
 
 
-// Rack preview component containing
+// Rack preview component display rack info
+
+
 export const RackPrev = (props) => {
 
     const navigate = useNavigate();
@@ -49,7 +55,9 @@ export const RackPrev = (props) => {
     );
 }
 
-// Individual rack page component
+// Individual rack page component display resource components
+
+
 export const Rack = () => {
     const [resources, setResources] = useState([]);
     const {rackId} = useParams();
@@ -86,9 +94,8 @@ export const Rack = () => {
         <SideBar />
         <div className='rack-content'>
             <h1>{name}</h1>
-            <h4>Texts and Web Urls</h4>
             <div className="resource-container">
-                {resources.map((resource) => (<Resource
+                {resources.length  >= 1 ? resources.map((resource) => (<Resource
                     title={resource.title}
                     desc={resource.description}
                     type={resource.type}
@@ -96,26 +103,56 @@ export const Rack = () => {
                     handleDelete={handleDelete}
                     id={resource.id}
                     key={resource.id}
-                    />))}
+                    />))  : <p>You have no resources in this racks <Link to="/create" >Create</Link></p>}
             </div>
-            {/* <h4>Youtube Vids</h4>
-            <div className='Yt-vids'>
-                {resources.map((resource) => {resource.type === 'YouTubeURL' && <Resource />})}
-            </div> */}
         </div>
         </>
     )
 }
 
+
+// This Component desplays resource contents and features
 export const ResourceView = () => {
     const { resourceId } = useParams();
     const [resource, setResource] = useState({});
     const {user} = useContext(UserContext);
     const [inputs, setInputs] = useState({public: resource.public});
-    const [update, setUpdate] = useState(false)
+    const [update, setUpdate] = useState(false);
+    const [message, setMessage] = useState(null);
 
     const UpdateResource = () => {
         setUpdate(!update);
+        setInputs({public: resource.public});
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        const newData = {...resource, ...inputs};
+        try{
+            const updateData = async () => {
+                const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks/${resource.rack_id}/resources/${resource.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify(newData)})
+
+
+                if (response.ok){
+                    console.log("Update successful")
+                    setResource(newData);
+                    return (true);
+                } else {
+                    console.error("Resource update failed");
+                }
+            }
+
+            if (updateData()){ 
+                setMessage("Updated");
+                setUpdate(!update);
+            } else {setMessage("Update failed");}
+        } catch(error){
+            console.error(error.message)
+        }
     }
 
     const handleInputChange = (event) => {
@@ -134,7 +171,7 @@ export const ResourceView = () => {
             const response = await fetch(`http://0.0.0.0:5000/api/v1/resources/${resourceId}`)
             if (response.ok){
                 const data = await response.json();
-                setTimeout(()=> setResource(data), 2000)
+                setResource(data);
             }
         }
 
@@ -143,28 +180,38 @@ export const ResourceView = () => {
 
     return (
         <div className="resource-page" style={{
-            marginTop: "70px"
+            marginTop: "70px", justifyContent: "left"
         }}>
             <h1 style={{
-                textJustify: "left"
+                weight: "500"
             }}>{resource.title} </h1>
             {!update ?
                 <>
-                <h3>Resource description</h3>
-                <p>{resource.description}</p>
-                <h3>Resource content</h3>
+                <p
+                 style={{
+                    font: "italic",
+                    color: "grey"
+                 }}>{resource.description}</p>
                 { resource.type === "YouTubeURL" ? <YoutubeEmbed embedId={ resource.content.split('v=')[1] || resource.content.split('=')[1] }/> : 
                     <p>{resource.type === 'URL' ? <a href={resource.content}>{resource.content}</a> : resource.content }</p> }
                 </>
                 :
                  
-                <form>
+                <form onSubmit={handleSubmit}>
+
+                    {message && <i>{message}</i>}
+                    <label htmlFor='title'>Resource title<input
+                        id="title"
+                        name="title"
+                        value={inputs.title || resource.title || ""}
+                        onChange={handleInputChange}
+                        type="text" /></label>
                     <label htmlFor='resource-description'>Resource description
                         <input
                         type="text"
                         name="description"
                         onChange={handleInputChange}
-                        value = { inputs.description || resource.description} />
+                        value = { inputs.description || resource.description || ""} />
                     </label>
                      <label htmlFor="resource-content"> Resource content
                         <textarea 
@@ -172,7 +219,7 @@ export const ResourceView = () => {
                             name = "content"
                             onChange={handleInputChange}
                             placeholder='write your content here'
-                            value={ inputs.content || resource.content } ></textarea>
+                            value={ inputs.content || resource.content || "" } ></textarea>
                     </label>
                     <label className="public" htmlFor='public'>
                         <input
@@ -184,15 +231,19 @@ export const ResourceView = () => {
                             checked={inputs.public}
                         />Make Public
                     </label>
-                    <div className='confirm-option'>
-                        <button onClick={UpdateResource} >cancel</button>
-                        <input type='submit' value="Update" />
-                    </div>
+                    <button onClick={UpdateResource} >Cancel</button>
+                    <input type='submit' value="Update" />
                 </form>
             }
             {
-                (resource.userId === user.id || !update) &&
-                <button onClick={UpdateResource}><ion-icon name="create-outline"></ion-icon></button>
+                (resource.userId === user.id && !update) &&
+                <button style={{
+                    width: "fit-content",
+                    height: "fit-content",
+                    color: 'green'
+                }} 
+                onClick={UpdateResource}>Edit<ion-icon style={{fontSize: "16px"}}
+                name="create-outline"></ion-icon></button>
             }
         </div>
     )
