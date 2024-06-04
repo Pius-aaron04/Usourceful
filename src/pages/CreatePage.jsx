@@ -27,24 +27,28 @@ function CreatePage (){
 
     const handleSubmit = (event) =>{
         event.preventDefault();
-        console.log(inputs);
         // Make Api request
 
         if (content === 'Rack'){
-            const fetchRack = async () => {
-                const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
-                method: 'POST',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
+            try {
+                const fetchRack = async () => {
+                    const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
+                    method: 'POST',
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
 
-                const data = await response.json();
+                    const data = await response.json();
 
-                if (response.ok){
-                    setMessage(`${inputs.name} created successfully`)
+                    if (!response.ok){
+                        throw Error("Failed")
+                    }
+                    setMessage(`${inputs.name || inputs.title} created successfully`)
                     setTimeout(() => { setValue({racks: [...racks, data]}); console.log(racks)}, 2000)
                 }
+                fetchRack();
+            } catch(error){
+                setMessage(error.message)
             }
-            fetchRack();
         } else {
             fetch(`http://0.0.0.0:5000/api/v1/resources`, {
                 method: 'POST',
@@ -100,7 +104,7 @@ function CreatePage (){
                 content !== "Rack" &&
                 <>
                 <label htmlFor='destination-choice'>Choose rack destination
-                <select id="destination-choice" name="rack_id" onChange={handleInputChange}>
+                <select required id="destination-choice" name="rack_id" onChange={handleInputChange}>
                     <option >Choose destination rack</option>
                     {racks.map(
                         (rack) => (<option
@@ -111,7 +115,7 @@ function CreatePage (){
                 </select>
                 </label>
                 <label htmlFor='resource-type'>
-                <select id="resource-type" name="type" onChange={handleInputChange}>
+                <select required id="resource-type" name="type" onChange={handleInputChange}>
                     <option >Choose resource type</option>
                     <option name="type" value="URL">Website or resource link</option>
                     <option name="type" value="YouTubeURL">YouTube Video Link</option>
@@ -185,21 +189,26 @@ export function CreateRack ({user_id}){
         console.log(inputs);
         // Make Api request
 
-    
-        const fetchRack = async () => {
-            const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
+        try {
+            const fetchRack = async () => {
+                const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
 
-            const data = await response.json();
+                const data = await response.json();
 
-            if (response.ok){
-                setMessage(`Create ${inputs.name} successfully`)
-                navigate("/home")
-            }
+                if (response.ok){
+                    setMessage(`Create ${inputs.name} successfully`)
+                    navigate("/home")
+                } else {
+                    throw Error("create failed")
+                }
+           }
+           fetchRack()
+        } catch (error){
+            console.error(error.message)
         }
-        fetchRack()
     }
 
     return(

@@ -1,0 +1,8 @@
+flask
+flask_cors
+flask_sqlalchemy
+python-decouple
+mysql-connector-python
+gunicorn
+flask_migrate
+flask_bcrypt
