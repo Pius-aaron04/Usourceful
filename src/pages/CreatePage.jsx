@@ -32,7 +32,7 @@ function CreatePage (){
         if (content === 'Rack'){
             try {
                 const fetchRack = async () => {
-                    const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
+                    const response = await fetch(`https://54.146.72.197:5000/api/v1/users/${user.id}/library/racks`, {
                     method: 'POST',
                     headers: {'Content-type': 'application/json'},
                     body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
@@ -50,13 +50,13 @@ function CreatePage (){
                 setMessage(error.message)
             }
         } else {
-            fetch(`http://0.0.0.0:5000/api/v1/resources`, {
+            fetch(`https://54.146.72.197:5000/api/v1/resources`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(inputs)
             }).then(response => response.json())
             .catch(err => {setMessage(err.message); console.error(err)});
-            setMessage(`${inputs.name} created succesfully`)
+            setMessage(`${inputs.title} created succesfully`)
         }
         // notify user on create status
     }
@@ -191,7 +191,7 @@ export function CreateRack ({user_id}){
 
         try {
             const fetchRack = async () => {
-                const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks`, {
+                const response = await fetch(`https://54.146.72.197:5000/api/v1/users/${user.id}/library/racks`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});

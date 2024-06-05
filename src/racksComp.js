@@ -69,7 +69,7 @@ export const Rack = () => {
 
     useEffect(() =>{
         const fetchResources = async () =>{
-            const response = await fetch(`http://0.0.0.0:5000/api/v1/racks/${rackId}/resources`)
+            const response = await fetch(`https://54.146.72.197:5000/api/v1/racks/${rackId}/resources`)
             const data = await response.json()
             setTimeout(() => setResources(data), 2000);
         }
@@ -78,7 +78,7 @@ export const Rack = () => {
       
     const handleDelete = (id) => {
         const newResources = resources.filter(resource => resource.id !== id);
-        const response = fetch('http://0.0.0.0:5000/api/v1/resources/' + id, {
+        const response = fetch('https://54.146.72.197:5000/api/v1/resources/' + id, {
             method: 'DELETE'
         })
         if (response.ok){
@@ -131,7 +131,7 @@ export const ResourceView = () => {
         const newData = {...resource, ...inputs};
         try{
             const updateData = async () => {
-                const response = await fetch(`http://0.0.0.0:5000/api/v1/users/${user.id}/library/racks/${resource.rack_id}/resources/${resource.id}`, {
+                const response = await fetch(`https://54.146.72.197:5000/api/v1/users/${user.id}/library/racks/${resource.rack_id}/resources/${resource.id}`, {
                     method: 'PUT',
                     headers: {'Content-type': 'application/json'},
                     body: JSON.stringify(newData)})
@@ -168,7 +168,7 @@ export const ResourceView = () => {
 
     useEffect( () => {
             const fetchResource = async () => {
-            const response = await fetch(`http://0.0.0.0:5000/api/v1/resources/${resourceId}`)
+            const response = await fetch(`https://54.146.72.197:5000/api/v1/resources/${resourceId}`)
             if (response.ok){
                 const data = await response.json();
                 setResource(data);

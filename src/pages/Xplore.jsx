@@ -11,7 +11,7 @@ const Xplore = () => {
  
     useEffect( () => {
             const fetchPublicRacks = async () => {
-            const response = await fetch('http://localhost:5000/api/v1/racks');
+            const response = await fetch('https://54.146.72.197:5000/api/v1/racks');
             if (response.ok){
                 const data = await response.json();
                 setTimeout(() => {setPublicRacks(data)}, 2000);
@@ -56,12 +56,12 @@ export const XploreRacks = () => {
 
    useEffect(() =>{
         const fetchRack = async () =>{
-            const response = await fetch(`http://192.168.8.187:5000/api/v1/racks/${rackId}`)
+            const response = await fetch(`https://54.146.72.197:5000/api/v1/racks/${rackId}`)
             const data = await response.json()
             setRack(data)
         }
        const fetchResources = async () =>{
-           const response = await fetch(`http://192.168.8.187:5000/api/v1/racks/${rackId}/resources`)
+           const response = await fetch(`https://54.146.72.197:5000/api/v1/racks/${rackId}/resources`)
            const data = await response.json()
            setResources(data);
        }

@@ -19,7 +19,7 @@ export function SignUp() {
         event.preventDefault();
         if (inputs.confirmPassword === inputs.password){
             try{
-                const response = await fetch('http://0.0.0.0:5000/api/v1/users',{
+                const response = await fetch('https://54.146.72.197:5000/api/v1/users',{
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(inputs)
@@ -129,7 +129,7 @@ export function SignIn() {
     
         const fetchData = async () => {
             try {
-                const response = await fetch('http://0.0.0.0:5000/api/v1/auth/me', {
+                const response = await fetch('https://54.146.72.197:5000/api/v1/auth/me', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(inputs)

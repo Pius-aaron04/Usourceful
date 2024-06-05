@@ -40,5 +40,5 @@ def teardown_appcontext(exception):
 if __name__ == '__main__':
     host = getenv('USOURCE_HOST')
     port = int(getenv('USOURCE_PORT', 5000))
-    app.run(host=host, port=port, threaded=True, debug=True)
+    app.run(host=host, port=port, threaded=True)
 
