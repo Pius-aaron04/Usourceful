@@ -36,7 +36,6 @@ class User(BaseModel, Base):
         time = '%Y-%m-%dT%H:%M:%S.%f'
 
         attributes = self.__dict__.copy()
-        attributes['__class__'] = self.__class__.__name__
         del attributes['password']
         attributes['library_id'] = self.library.id
 

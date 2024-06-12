@@ -11,14 +11,14 @@ const Xplore = () => {
  
     useEffect( () => {
             const fetchPublicRacks = async () => {
-            const response = await fetch('https://54.146.72.197:5000/api/v1/racks');
+            const response = await fetch('http://localhost:5000/api/v1/racks');
             if (response.ok){
                 const data = await response.json();
                 setTimeout(() => {setPublicRacks(data)}, 2000);
             }
         };
 
-            fetchPublicRacks();
+        fetchPublicRacks();
 }, []);
     return(
         <>
@@ -31,7 +31,7 @@ const Xplore = () => {
         <h4>Racks</h4>
         </section>
         <section className="racks-section">
-            {publicRacks.map((rack) => 
+            { publicRacks.map((rack) => 
                 <div className="rack-preview" onClick={()=>{navigate(`/xplore/racks/${rack.id}`)}}>
                 <h3 className="rack-title">{rack.name}</h3>
                 <div className="rack-info">
@@ -49,46 +49,43 @@ const Xplore = () => {
 }
 
 
+
+// Visible rack component on Xplore page
 export const XploreRacks = () => {
    const [rack, setRack] = useState({});
    const {rackId} = useParams();
-   const [resources, setResources] = useState([])
+   const [resources, setResources] = useState([]);
 
    useEffect(() =>{
-        const fetchRack = async () =>{
-            const response = await fetch(`https://54.146.72.197:5000/api/v1/racks/${rackId}`)
-            const data = await response.json()
-            setRack(data)
-        }
+//         const fetchRack = async () =>{
+//             const response = await fetch(`https://usourceful.techsorce.tech/api/v1/racks/${rackId}`)
+//             const data = await response.json()
+//             setRack(data)
+        // }
        const fetchResources = async () =>{
-           const response = await fetch(`https://54.146.72.197:5000/api/v1/racks/${rackId}/resources`)
+           const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources`)
            const data = await response.json()
            setResources(data);
        }
-       fetchRack()
+    //    fetchRack();
        fetchResources();
    }, [rackId])
 
     return(
         <>
-        <SideBar />
         <div className='rack-content'>
             <h1>{rack.name}</h1>
             <div className="resource-container">
-                <h4>Texts and Web Urls</h4>
-                {resources.map((resource) => (resources.type !== 'YouTubeURL' && <Resource
+                {resources.map((resource) => (<Resource
                     title={resource.title}
                     desc={resource.description}
                     type={resource.type}
                     content={resource.content}
                     id={resource.id}
                     key={resource.id}
+                    userId={resource.userId}
                     />))}
             </div>
-            {/* <h4>Youtube Vids</h4>
-            <div>
-                {resources.map((resource) => {resource.type === 'YouTubeURL' && <Resource />}))}
-            </div> */}
         </div>
         </>
     )

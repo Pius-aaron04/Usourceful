@@ -1,12 +1,16 @@
+body{
+  height: 100vh;
+}
 
 footer{
-    position: fixed;
-    bottom: 0%;
+    /* position: fixed; */
+    bottom: 0;
     max-height: 50px;
     border-top: solid 2px goldenrod;
     margin: 0;
     width: 100%;
     background-color: #dddddd;
+    margin-top: 50px;
   }
   
   footer > p{

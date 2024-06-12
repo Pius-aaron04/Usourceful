@@ -13,17 +13,21 @@ function Home() {
 
     useEffect(
         () => {
-            // redirects user to home page if not logged in
-            if (!isLoggedIn) return(navigate("/login"));
+            if (isLoggedIn && user){
             
-            fetch('https://54.146.72.197:5000/api/v1/users/'+user.id+'/library/racks')
-                .then(response => response.json()).then(data => {setMessage("Welcome");setValue({racks: data})})
-                .catch(err => setMessage(err.message))
+                fetch('http://localhost:5000/api/v1/users/'+user.id+'/library/racks', {
+                    headers: {'Authorization': `Bearer ${user.access_token}`} 
+                })
+                    .then(response => response.json()).then(data => {setMessage("Welcome");setValue({racks: data})})
+                    .catch(err => setMessage(err.message))
+            } else{
+                navigate("/login");
+            }
     }, [isLoggedIn])//, [racks, navigate, user.id, isLoggedIn, setValue])
  
     const handleDelete = (id) => {
         const updatedRacks = racks.filter(rack => rack.id !== id);
-        const response = fetch('https://54.146.72.197:5000/api/v1/racks/' + id, {
+        const response = fetch('http://localhost:5000/api/v1/racks/' + id, {
             method: 'DELETE'
         }).catch((err) => console.log(err))
         if (response.ok){
@@ -36,7 +40,6 @@ function Home() {
 
     return(
         <>
-        <SideBar />
         <div className='home-content'>
             {message && <h1>{message} {user.username}!</h1>}
             {racks.length >= 1 && <h2>visit your racks below</h2>}

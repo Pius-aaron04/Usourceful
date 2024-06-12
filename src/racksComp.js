@@ -9,24 +9,18 @@ import YoutubeEmbed from './Youtube';
 // Resource Component displaying resource Info
 
 
-export const Resource = ({content, title, desc, type, handleDelete, id}) => {
-
-    // if (type === 'YouTubeURL'){
-    //     return(
-    //         <YoutubeEmbed embedId={content.split('v=')[1] || content.split('=')[1]}/>
-    //     )
-
-    // }
+export const Resource = ({content, title, desc, type, handleDelete, id, userId}) => {
+    const { user } = useContext(UserContext);
 
     return(
         <div className="resource-preview">
-            <h3 className="resource-title"><a target='_blank' rel="noreferrer" href={content}>{title}</a></h3>
+            <h3 className="resource-title"><a target='_blank' href={content}>{title}</a></h3>
             <div className="resource-info">
-                <p className="rack-desc"><a target='_blank' rel="noreferrer" href={content}>{desc}</a></p>
+                <p className="rack-desc"><a target='_blank' href={content}>{desc}</a></p>
                 <span className="extra-desc">
                     <p className="resource-type">type: {type}</p>
                     <Link to={`/resources/${id}`}>Open resource</Link>
-                    <button className="delete-button" onClick={() => handleDelete(id)}>Delete<ion-icon name="trash-outline"></ion-icon></button>
+                    { (user.id && userId === user.id) && <button className="delete-button" onClick={() => handleDelete(id)}>Delete<ion-icon name="trash-outline"></ion-icon></button> }
                 </span>
             </div>
         </div>
@@ -69,7 +63,7 @@ export const Rack = () => {
 
     useEffect(() =>{
         const fetchResources = async () =>{
-            const response = await fetch(`https://54.146.72.197:5000/api/v1/racks/${rackId}/resources`)
+            const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources`)
             const data = await response.json()
             setTimeout(() => setResources(data), 2000);
         }
@@ -78,7 +72,7 @@ export const Rack = () => {
       
     const handleDelete = (id) => {
         const newResources = resources.filter(resource => resource.id !== id);
-        const response = fetch('https://54.146.72.197:5000/api/v1/resources/' + id, {
+        const response = fetch('http://localhost:5000/api/v1/resources/' + id, {
             method: 'DELETE'
         })
         if (response.ok){
@@ -131,7 +125,7 @@ export const ResourceView = () => {
         const newData = {...resource, ...inputs};
         try{
             const updateData = async () => {
-                const response = await fetch(`https://54.146.72.197:5000/api/v1/users/${user.id}/library/racks/${resource.rack_id}/resources/${resource.id}`, {
+                const response = await fetch(`http://localhost:5000/api/v1/users/${user.id}/library/racks/${resource.rack_id}/resources/${resource.id}`, {
                     method: 'PUT',
                     headers: {'Content-type': 'application/json'},
                     body: JSON.stringify(newData)})
@@ -168,7 +162,7 @@ export const ResourceView = () => {
 
     useEffect( () => {
             const fetchResource = async () => {
-            const response = await fetch(`https://54.146.72.197:5000/api/v1/resources/${resourceId}`)
+            const response = await fetch(`http://localhost:5000/api/v1/resources/${resourceId}`)
             if (response.ok){
                 const data = await response.json();
                 setResource(data);
@@ -182,6 +176,7 @@ export const ResourceView = () => {
         <div className="resource-page" style={{
             marginTop: "70px", justifyContent: "left"
         }}>
+            <SideBar />
             <h1 style={{
                 weight: "500"
             }}>{resource.title} </h1>

@@ -12,41 +12,22 @@ from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models.library import Library
 from .utility import check_attributes
-
-
-@app_views.route("auth/me", strict_slashes=False, methods=['POST'])
-def authenticate():
-    from api.v1.app import bcrypt
-
-    """Authenticate user credentials"""
-
-    credentials = request.get_json()
-    print(credentials)
-
-    if credentials or all(('username', 'password')) in credentials.keys():
-        user = storage.find(User, credentials['username']).first()
-
-        if user:
-            pwd_hash = user.password
-            pwd = credentials['password']
-
-            if bcrypt.check_password_hash(pwd_hash, pwd):
-                data = user.to_dict()
-                return data, 200
-
-    abort(404)
+from flask_jwt_extended import jwt_required
 
 
 @app_views.route("users", methods=['GET'])
+def all_users():
+    """Gets users"""
+
+    users = [user.to_dict() for user in storage.all(User).values()]
+    return jsonify(users), 200
+
 @app_views.route("users/<user_id>", methods=['GET'])
-def get_users(user_id=None):
+@jwt_required()
+def get_user(user_id=None):
     """
     routes user(s) data.
     """
-
-    if not user_id:
-        users = [user.to_dict() for user in storage.all(User).values()]
-        return jsonify(users), 200
 
     user = storage.get(User, user_id)
 
@@ -71,22 +52,9 @@ def delete_user(user_id):
     abort(404)
 
 
-@app_views.route('users/<user_id>/library', methods=['GET'])
-def get_user_library(user_id):
-    """
-    route user library data
-    """
-
-    user = storage.get(User, user_id)
-
-    if not user:
-        return jsonify({'error': 'user not found'}), 404
-
-    return jsonify(user.library.to_dict()), 200
-
-
 @app_views.route('users/<user_id>/library/racks', methods=['GET', 'POST'],
                  strict_slashes=False)
+@jwt_required()
 def user_racks(user_id):
     """
     routes user library racks
@@ -101,7 +69,7 @@ def user_racks(user_id):
         user_racks = [rack.to_dict() for rack in user.library.racks]
         return jsonify(user_racks)
 
-    # creates a new rack
+    # creates a new rack on POST request
     data = request.get_json()
     print(data)
     check = check_attributes('Rack', set(data)) # checks for required attrs
@@ -114,6 +82,7 @@ def user_racks(user_id):
 
 @app_views.route('users/<user_id>/library/racks/<rack_id>',
                  methods=['PUT', 'DELETE'], strict_slashes=False)
+@jwt_required()
 def update_delete_user_rack(user_id, rack_id):
     """
     Endpoint to update user's rack
@@ -140,6 +109,7 @@ def update_delete_user_rack(user_id, rack_id):
 
 @app_views.route('users/<user_id>/library/racks/<rack_id>/resources',
                  methods=['GET'], strict_slashes=False)
+@jwt_required()
 def get_user_rack_resources(user_id, rack_id):
     """
     fetches user's rack resources
@@ -158,6 +128,7 @@ def get_user_rack_resources(user_id, rack_id):
 
 @app_views.route('users/<user_id>/library/racks/<rack_id>/resources/',
                  methods=['POST'], strict_slashes=False)
+@jwt_required()
 def create_rack_resource(user_id, rack_id):
     """
     gets or delete a resource
@@ -182,6 +153,7 @@ def create_rack_resource(user_id, rack_id):
 
 @app_views.route('users/<user_id>/library/racks/<rack_id>/resources/'+\
                  '<resource_id>', methods=['GET', 'PUT'], strict_slashes=False)
+@jwt_required()
 def get_del_rack_resource(user_id, rack_id, resource_id):
     """
     gets or delete a resource
@@ -206,7 +178,9 @@ def get_del_rack_resource(user_id, rack_id, resource_id):
         resource.save()
         return jsonify(resource.to_dict()), 200
 
-    return jsonify(resource.to_dict()), 200
+    data['userId'] = resource.rack.library.user_id
+
+    return jsonify(data), 200
 
 
 @app_views.route('users/<user_id>/recommendations', methods=['GET'],
@@ -228,6 +202,7 @@ def user_recommendations(user_id):
 
 @app_views.route('users', methods=['POST'],
                  strict_slashes=False)
+@jwt_required()
 def create_user():
     """
     endpoint to create a new user
@@ -247,6 +222,7 @@ def create_user():
     elif 'password' not in data:
         return jsonify({'error': 'password missing'}), 400
 
+    # checks for already existing user account
     if storage.find(User, data['username']).first() or\
         storage.find(User, data["email"]).first():
         return {"error": "user already exists"}, 400

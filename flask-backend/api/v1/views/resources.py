@@ -38,6 +38,8 @@ def create_resources():
     elif 'content' not in data:
         return jsonify({'error': 'content missing'}), 400
 
+    if any(('rack_id', 'subrack_id')) not in data:
+        return {'error': "either rack_id or subrack_id must be specified"}, 400
     resource = Resource(**data)
     print(resource)
     resource.save()

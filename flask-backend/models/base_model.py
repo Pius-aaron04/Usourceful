@@ -69,7 +69,6 @@ class BaseModel:
         """returns a dictionary of attributes."""
 
         attributes = self.__dict__.copy()
-        attributes['__class__'] = self.__class__.__name__
 
         if self.__class__.__name__ in ("Rack", "Library"):
             attributes['num_items'] = self.num_items
@@ -82,7 +81,6 @@ class BaseModel:
             del attributes['_sa_instance_state']
         if 'rack' in attributes:
             del attributes['rack']
-        del attributes['__class__']
         return attributes
 
     def update(self, **kwargs):

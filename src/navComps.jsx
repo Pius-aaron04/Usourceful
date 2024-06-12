@@ -24,8 +24,10 @@ function SideBar() {
   }, [isOpen]); 
 
   const handleLogout = () => {
-    setValue({isLoggedIn: false})
+    setValue({isLoggedIn: false, user: {}})
+    localStorage.clear();
     navigate("/login");
+    setIsOpen(!isOpen);
   }
 
     return (

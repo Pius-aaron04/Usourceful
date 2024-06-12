@@ -79,7 +79,7 @@ def rack_subracks(rack_id):
     return jsonify(subracks), 200
 
 
-@app_views.route('racks/<rack_id>/', methods=['UPDATE'])
+@app_views.route('racks/<rack_id>/', methods=['PUT'])
 def update_rack(rack_id):
     """
     Updates rack data

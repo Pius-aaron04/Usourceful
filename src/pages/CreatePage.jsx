@@ -32,7 +32,7 @@ function CreatePage (){
         if (content === 'Rack'){
             try {
                 const fetchRack = async () => {
-                    const response = await fetch(`https://54.146.72.197:5000/api/v1/users/${user.id}/library/racks`, {
+                    const response = await fetch(`http://localhost:5000/api/v1/users/${user.id}/library/racks`, {
                     method: 'POST',
                     headers: {'Content-type': 'application/json'},
                     body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
@@ -50,7 +50,7 @@ function CreatePage (){
                 setMessage(error.message)
             }
         } else {
-            fetch(`https://54.146.72.197:5000/api/v1/resources`, {
+            fetch(`http://localhost:5000/api/v1/resources`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(inputs)
@@ -151,7 +151,7 @@ function CreatePage (){
 
 // Short cut button at for creating resources or racks
 
-export function CreateRack ({user_id}){
+export function CreateRack (){
     const [isOpen, setIsOpen] = useState(false);
     const {user, racks, setValue} = useContext(UserContext);
     const [inputs, setInputs] = useState({library_id: user.library_id, public: false});
@@ -182,25 +182,25 @@ export function CreateRack ({user_id}){
         // Add event listener on mount, remove on unmount
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-      }, [isOpen, racks]);
+    }, [isOpen, racks]);
 
-      const handleSubmit = (event) =>{
-        event.preventDefault();
-        console.log(inputs);
-        // Make Api request
+    const handleSubmit = (event) =>{
+    event.preventDefault();
+    console.log(inputs);
+    // Make Api request
 
         try {
             const fetchRack = async () => {
-                const response = await fetch(`https://54.146.72.197:5000/api/v1/users/${user.id}/library/racks`, {
+                const response = await fetch(`https://localhost:5000/api/v1/users/${user.id}/library/racks`, {
                 method: 'POST',
                 headers: {'Content-type': 'application/json'},
                 body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
 
                 const data = await response.json();
-
                 if (response.ok){
-                    setMessage(`Create ${inputs.name} successfully`)
-                    navigate("/home")
+                    setMessage(`Create ${inputs.name} successfully`);
+                    navigate("/home");
+                    setValue({racks: [...racks, ...data]});
                 } else {
                     throw Error("create failed")
                 }

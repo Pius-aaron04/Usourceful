@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'; // Import your page components
 import Xplore from './pages/Xplore';
@@ -12,16 +12,17 @@ import Header from './header';
 import SignIn from './forms';
 import { SignUp } from './forms';
 import UserContext from './context';
-import Landing from './pages/landingPage'
 import { Rack, ResourceView } from './racksComp';
 import { XploreRacks } from './pages/Xplore';
+import SideBar from './navComps';
 
 
 function App() {
 
+  const user_data = JSON.parse(localStorage.getItem('user')) || {};
   const [state, setState] = useState({
-    user: {email:'', name:''},
-    isLoggedIn: false,
+    user: user_data,
+    isLoggedIn: user_data.id ? true : false,
     racks: []
   })
 
@@ -30,11 +31,11 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {/* <SideBar /> Include the SideBar here */}
         <UserContext.Provider value={{...state, setValue: updateState}}>
-          {/* <CreateRack /> */}
           <Header />
+          <SideBar />
           <Routes>
+            <Route path="/" exact index element={<Xplore />} />
             <Route path="/xplore" element={<Xplore />} />
             <Route path="/favourites" element={<Favourites />} />
             <Route path="/community" element={<Community />} />
@@ -44,7 +45,6 @@ function App() {
             <Route path="/create" element={<CreatePage />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/" exact index element={<Landing />} />
             <Route path="/my_racks/:rackId" element={<Rack />} />
             <Route path="/xplore/racks/:rackId" element={<XploreRacks />} />
             <Route path="/resources/:resourceId" element={<ResourceView />} />

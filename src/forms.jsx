@@ -19,7 +19,7 @@ export function SignUp() {
         event.preventDefault();
         if (inputs.confirmPassword === inputs.password){
             try{
-                const response = await fetch('https://54.146.72.197:5000/api/v1/users',{
+                const response = await fetch('http://localhost:5000/api/v1/users',{
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(inputs)
@@ -109,10 +109,11 @@ export function SignUp() {
 }
 
 export function SignIn() {
-    const {isLoggedIn, setValue} = useContext(UserContext)
+    const {user, isLoggedIn, setValue} = useContext(UserContext)
     const [inputs, setInputs] = useState({});
     const navigate = useNavigate();
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     useEffect( () => {
@@ -129,7 +130,7 @@ export function SignIn() {
     
         const fetchData = async () => {
             try {
-                const response = await fetch('https://54.146.72.197:5000/api/v1/auth/me', {
+                const response = await fetch('http://localhost:5000/api/v1/auth/me', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(inputs)
@@ -140,11 +141,15 @@ export function SignIn() {
                 }
     
                 const data = await response.json();
+                localStorage.setItem('user', JSON.stringify(data));
                 setValue({ user: data, isLoggedIn: true });
             } catch (error){setError(error.message)}
         }
-        fetchData()
-        setTimeout(() => navigate("/home"), 1000);
+        setIsLoading(true);
+        fetchData();
+        setIsLoading(false);
+        console.log(user);
+        navigate("/home");
     };
     
     return (
@@ -153,6 +158,8 @@ export function SignIn() {
         <div className='form-container'>
             <h2>Welcome!</h2>
             <p>Login to your account</p>
+            { !isLoading ?
+            <>
             <form onSubmit={handleSubmit}  className="login-form">
                 {error && <p style={{color: "red"}}>{error}</p>}
                 <label htmlFor="username">Username:
@@ -176,6 +183,7 @@ export function SignIn() {
                 <input type='submit' value="Log in"/>
                 <p><a href="/reset/password">Forgot your password?</a> or <Link to="/signup">Sign Up</Link></p>
             </form>
+            </> : <img src="./three-11928_256.gif" />}
         </div>
         </>
     )
