@@ -1,6 +1,5 @@
 import React, { useState, useEffect} from "react";
-import SideBar from "../navComps";
-import { Resource } from "../racksComp";
+import { Resource } from "../components/racksComp";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Xplore = () => {
@@ -22,7 +21,6 @@ const Xplore = () => {
 }, []);
     return(
         <>
-        <SideBar />
         <section style={{
             marginTop: "100px",
             padding: "10px"}} className="intro">
@@ -52,23 +50,18 @@ const Xplore = () => {
 
 // Visible rack component on Xplore page
 export const XploreRacks = () => {
-   const [rack, setRack] = useState({});
+   const [rack] = useState({});
    const {rackId} = useParams();
    const [resources, setResources] = useState([]);
 
    useEffect(() =>{
-//         const fetchRack = async () =>{
-//             const response = await fetch(`https://usourceful.techsorce.tech/api/v1/racks/${rackId}`)
-//             const data = await response.json()
-//             setRack(data)
-        // }
-       const fetchResources = async () =>{
-           const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources`)
-           const data = await response.json()
-           setResources(data);
-       }
-    //    fetchRack();
-       fetchResources();
+    const fetchResources = async () =>{
+        const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources`);
+        const data = await response.json();
+        setResources(data);
+    }
+
+    fetchResources();
    }, [rackId])
 
     return(

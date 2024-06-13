@@ -1,5 +1,5 @@
 import React from "react";
-import SideBar from "../navComps";
+
 
 const Community = () => {
     return(

@@ -1,19 +1,17 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home'; // Import your page components
-import Xplore from './pages/Xplore';
-import Favourites from './pages/Favourites';
-import Community from './pages/Community';
-import About from './pages/About';
-import Blog from './pages/Blog';
-import CreatePage from './pages/CreatePage';
+import Home from '../pages/Home'; // Import your page components
+import Xplore from '../pages/Xplore';
+import Favourites from '../pages/Favourites';
+import Community from '../pages/Community';
+import About from '../pages/About';
+import CreatePage from '../pages/CreatePage';
 import Header from './header';
-import SignIn from './forms';
-import { SignUp } from './forms';
-import UserContext from './context';
+import SignIn, {SignUp} from '../components/forms';
+import UserContext from '../context';
 import { Rack, ResourceView } from './racksComp';
-import { XploreRacks } from './pages/Xplore';
+import { XploreRacks } from '../pages/Xplore';
 import SideBar from './navComps';
 
 
@@ -40,7 +38,6 @@ function App() {
             <Route path="/favourites" element={<Favourites />} />
             <Route path="/community" element={<Community />} />
             <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
             <Route path="/home" element={<Home />} />
             <Route path="/create" element={<CreatePage />} />
             <Route path="/login" element={<SignIn />} />

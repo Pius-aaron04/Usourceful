@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import UserContext from './context';
+import UserContext from '../context';
 import { useContext } from 'react';
 
 const Header = () => {
@@ -22,7 +22,8 @@ const Header = () => {
             <Link to="/xplore">Xplore</Link>
           </span>
           <button style={{
-          margin: "10px", backgroundColor: "#64B5F6", borderRadius: "40%"
+          margin: "10px", backgroundColor: "green", borderRadius: "10px", color: "whitesmoke",
+          height: "35px", width: "80px", border: "solid 2px grey"
           }} 
           onClick={() => navigate("/login")}>Log in</button>
         </nav>

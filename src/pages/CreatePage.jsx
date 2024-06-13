@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import SideBar from '../navComps';
 import './create.css';
 import UserContext from '../context';
 import { useNavigate } from 'react-router-dom';
@@ -67,7 +66,6 @@ function CreatePage (){
     }
     return(
         <>
-        <SideBar />
         <div className='Create'>
         <h1>Create a new content</h1>
         <p>click to choose</p>

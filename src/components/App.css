@@ -13,6 +13,7 @@
   top: 0%;
   background-color: #282c34;
   height: fit-content;
+  min-height: 55px;
   width: 100%;
   padding: 0 10px;
   display: flex;
@@ -170,7 +171,7 @@ form input[type="submit"]:hover, #login-form input[type="submit"]:hover{
 }
 
 .side-bar{
-  top: 48px;
+  top: 55px;
   position: fixed;
   display: flex; /* Make the sidebar a flex container */
   flex-direction: column; /* Stack items vertically */
@@ -205,9 +206,19 @@ form input[type="submit"]:hover, #login-form input[type="submit"]:hover{
 .top-section ul a {
   color: black; /* Text color for links */
   text-decoration: none; /* Remove underline from links */
+  width: 100%;
+  height: 100%;
 }
 
 /* making side-bar collapsible */
+
+.log-in-out-btn{
+  width: 80%;
+  margin: 10px auto;
+  height: 30px;
+  color: whitesmoke;
+  border-radius: 5px;
+}
 
 .side-bar.closed{
  width:fit-content;

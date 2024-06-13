@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { RackPrev } from '../racksComp'
-import SideBar from '../navComps';
+import { RackPrev } from '../components/racksComp'
 import './Home.css';
 import UserContext from '../context';
 import { Link, useNavigate } from 'react-router-dom';

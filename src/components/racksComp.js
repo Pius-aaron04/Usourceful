@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './pages/Home.css';
-import SideBar from "./navComps";
+import '../pages/Home.css';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import UserContext from './context';
-import YoutubeEmbed from './Youtube';
+import UserContext from '../context';
+import YoutubeEmbed from '../Youtube';
 
 
 // Resource Component displaying resource Info
@@ -20,7 +19,9 @@ export const Resource = ({content, title, desc, type, handleDelete, id, userId})
                 <span className="extra-desc">
                     <p className="resource-type">type: {type}</p>
                     <Link to={`/resources/${id}`}>Open resource</Link>
-                    { (user.id && userId === user.id) && <button className="delete-button" onClick={() => handleDelete(id)}>Delete<ion-icon name="trash-outline"></ion-icon></button> }
+                    { (user.id && userId === user.id) && 
+                    <button className="delete-button" onClick={() => handleDelete(id)}>Delete<ion-icon name="trash-outline"></ion-icon></button>
+                    }
                 </span>
             </div>
         </div>
@@ -85,7 +86,6 @@ export const Rack = () => {
 
     return(
         <>
-        <SideBar />
         <div className='rack-content'>
             <h1>{name}</h1>
             <div className="resource-container">
@@ -176,7 +176,6 @@ export const ResourceView = () => {
         <div className="resource-page" style={{
             marginTop: "70px", justifyContent: "left"
         }}>
-            <SideBar />
             <h1 style={{
                 weight: "500"
             }}>{resource.title} </h1>

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import UserContext from './context';
+import UserContext from '../context';
 
 function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -51,21 +51,24 @@ function SideBar() {
               <li onClick={() => {isLoggedIn ? navigate('/favourites') : navigate("/login")}}>
                 <Link to="/favourites">Favourites <ion-icon name="star-half-outline"></ion-icon></Link>
               </li>
-              {/* <li onClick={() => navigate('/community')}>
-                <Link to="/community">Community <ion-icon name="people-circle-outline"></ion-icon></Link>
-              </li> */}
-              <li onClick={() => navigate('/about')}>
-                <Link to="/about">About <ion-icon name="map-outline"></ion-icon></Link>
+
+              {/* Nav icon opens new tab to the about section of the app's landing page*/}
+              <li onClick={(e) => {
+                e.preventDefault();
+                window.open("https://Pius-aaron04.github.io/Usourceful/#about", "_blank");}}>
+                <a href="https://Pius-aaron04.github.io/Usourceful/#about" target="_blank" >About <ion-icon name="map-outline"></ion-icon></a>
               </li>
-              {/* <li onClick={() => navigate('/blog')}>
-                <Link to="/blog">Blog <ion-icon name="laptop-outline"></ion-icon></Link>
-              </li> */}
+              {/* Navigates to the create page*/}
               <li onClick={() => {isLoggedIn ? navigate('/create') : navigate("/login")}}>
                 <Link to="/create">Create <ion-icon name="add-outline"></ion-icon></Link>
               </li>
             </ul>
           </span>
-            <button onClick={isLoggedIn ? handleLogout : () => navigate("/login")}>{isLoggedIn ? 'Log out' : 'Log in'}</button>
+            {
+              // Logical display of login and logout button
+              isLoggedIn ? <button style={{backgroundColor: "red"}} className="log-in-out-btn" onClick={handleLogout} ><ion-icon name="log-out-outline"></ion-icon> </button> : 
+              <button style={{backgroundColor: "green"}} className="log-in-out-btn" onClick={() => navigate("/login")}><ion-icon name="log-in-outline"></ion-icon></button>
+            }
             </>
             }
         </nav>
