@@ -33,7 +33,10 @@ function CreatePage (){
                 const fetchRack = async () => {
                     const response = await fetch(`http://localhost:5000/api/v1/users/${user.id}/library/racks`, {
                     method: 'POST',
-                    headers: {'Content-type': 'application/json'},
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${user.access_token}`
+                    },
                     body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
 
                     const data = await response.json();
@@ -191,7 +194,10 @@ export function CreateRack (){
             const fetchRack = async () => {
                 const response = await fetch(`https://localhost:5000/api/v1/users/${user.id}/library/racks`, {
                 method: 'POST',
-                headers: {'Content-type': 'application/json'},
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${user.access_token}`
+                },
                 body: JSON.stringify(inputs)}).catch(err => {setMessage(err.message); console.error(err)});
 
                 const data = await response.json();

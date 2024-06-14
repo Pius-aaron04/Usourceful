@@ -66,8 +66,7 @@ function SideBar() {
           </span>
             {
               // Logical display of login and logout button
-              isLoggedIn ? <button style={{backgroundColor: "red"}} className="log-in-out-btn" onClick={handleLogout} ><ion-icon name="log-out-outline"></ion-icon> </button> : 
-              <button style={{backgroundColor: "green"}} className="log-in-out-btn" onClick={() => navigate("/login")}><ion-icon name="log-in-outline"></ion-icon></button>
+              isLoggedIn && <button className="log-in-out-btn out" onClick={handleLogout} ><ion-icon name="log-out-outline"></ion-icon> </button>
             }
             </>
             }

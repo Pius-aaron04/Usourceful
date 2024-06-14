@@ -216,8 +216,18 @@ form input[type="submit"]:hover, #login-form input[type="submit"]:hover{
   width: 80%;
   margin: 10px auto;
   height: 30px;
-  color: whitesmoke;
+  color: black;
   border-radius: 5px;
+  background-color: white;
+}
+
+.in:hover{
+  background-color: green;
+  color: whitesmoke;
+}
+.out:hover{
+  background-color: red;
+  color: whitesmoke;
 }
 
 .side-bar.closed{

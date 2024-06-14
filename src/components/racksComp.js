@@ -11,6 +11,17 @@ import YoutubeEmbed from '../Youtube';
 export const Resource = ({content, title, desc, type, handleDelete, id, userId}) => {
     const { user } = useContext(UserContext);
 
+     /**
+     * A function that handles the deletion of a rack after confirmation.
+     *
+     */
+     const handleDeleteResource = () => {
+        const confirmation = window.confirm(`Are sure you want to delete this \nresource: ${title}?`);
+        if (confirmation) {
+            handleDelete(id);
+        }
+    }
+
     return(
         <div className="resource-preview">
             <h3 className="resource-title"><a target='_blank' href={content}>{title}</a></h3>
@@ -19,8 +30,8 @@ export const Resource = ({content, title, desc, type, handleDelete, id, userId})
                 <span className="extra-desc">
                     <p className="resource-type">type: {type}</p>
                     <Link to={`/resources/${id}`}>Open resource</Link>
-                    { (user.id && userId === user.id) && 
-                    <button className="delete-button" onClick={() => handleDelete(id)}>Delete<ion-icon name="trash-outline"></ion-icon></button>
+                    { userId === user.id && 
+                    <button className="delete-button" onClick={handleDeleteResource}>Delete<ion-icon name="trash-outline"></ion-icon></button>
                     }
                 </span>
             </div>
@@ -34,6 +45,17 @@ export const Resource = ({content, title, desc, type, handleDelete, id, userId})
 
 export const RackPrev = (props) => {
 
+    /**
+     * A function that handles the deletion of a rack after confirmation.
+     *
+     */
+    const handleDelete = () => {
+        const confirmation = window.confirm(`Are sure you want to delete this \n rack:${props.title}?`);
+        if (confirmation) {
+            props.handleDelete(props.rack_id);
+        }
+    }
+
     const navigate = useNavigate();
     return (
         <div className="rack-preview" onClick={(event)=>{if (!event.target.closest('#rack-delete')) navigate(`/my_racks/${props.rack_id}`)}}>
@@ -43,7 +65,7 @@ export const RackPrev = (props) => {
                 <span className="extra-desc">
                     <p>Items: {props.items}</p>
                     <Link id="view-button" to={`/my_racks/${props.rack_id}`}>Open Rack</Link>
-                    <button id='rack-delete' onClick={() => props.handleDelete(props.rack_id)}>delete</button>
+                    <button id='rack-delete' onClick={() => handleDelete(props.rack_id)}>delete</button>
                 </span>
             </div>
         </div>
@@ -62,6 +84,11 @@ export const Rack = () => {
 
     if (!name || !isLoggedIn) navigate("/login")
 
+     /**
+     * Fetches resources from the server for a given rack ID.
+     *
+     * @return {Promise<void>} A promise that resolves when the resources have been fetched and the state has been updated.
+     */
     useEffect(() =>{
         const fetchResources = async () =>{
             const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources`)
@@ -71,6 +98,7 @@ export const Rack = () => {
         fetchResources();
     }, [rackId])
       
+   
     const handleDelete = (id) => {
         const newResources = resources.filter(resource => resource.id !== id);
         const response = fetch('http://localhost:5000/api/v1/resources/' + id, {
@@ -97,6 +125,7 @@ export const Rack = () => {
                     handleDelete={handleDelete}
                     id={resource.id}
                     key={resource.id}
+                    userId={resource.userId}
                     />))  : <p>You have no resources in this racks <Link to="/create" >Create</Link></p>}
             </div>
         </div>

@@ -56,7 +56,7 @@ export const XploreRacks = () => {
 
    useEffect(() =>{
     const fetchResources = async () =>{
-        const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources`);
+        const response = await fetch(`http://localhost:5000/api/v1/racks/${rackId}/resources?public=true`);
         const data = await response.json();
         setResources(data);
     }
