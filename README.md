@@ -13,16 +13,23 @@ Check out app at [usourceful.techsorce.tech]('https://usourceful.techsorce.tech'
 
 ### Create 
 Users can create racks for organising resources and also Create individual resources
-![Create-rack]('https://github.com/Pius-aaron04/Pius-aaron04.github.io/blob/main/Usourceful/Create-rack.png')
+
+![Create-rack]('images/Create-rack.png')
 
 ### Edit
 users can edit already created racks(such as name and descriptions) or resources(names, descriptions and content).
-![Edit]('https://github.com/Pius-aaron04/Pius-aaron04.github.io/blob/main/Usourceful/Create-rack.png')
+
+![Edit]('images/Create-rack.png')
 
 ### Xplore
 This feature display all public viewable resources collections on the platform
-![xplore]('https://github.com/Pius-aaron04/Pius-aaron04.github.io/blob/main/Usourceful/Xplore.png)
 
-### Embedded YOutube video
-This features uses the YouTube iframe API to enable users watch their YouTube video resources right from the app
+![xplore]('images/Xplore.png)
+
+### Embedded Youtube video
+This features uses the YouTube iframe API to enable users watch their YouTube video resources right from the app.
+
+
+## Contributing
+This project is open to contributions and ideas. If you would like to contribute to this project, you can reach out to me on [X.com]('https://twitter.com/ascii_pius') and [LinkedIn]('https://linkedin.com/pius-aaron042')
 
