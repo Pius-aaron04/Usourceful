@@ -72,6 +72,8 @@ class BaseModel:
 
         if self.__class__.__name__ in ("Rack", "Library"):
             attributes['num_items'] = self.num_items
+            if self.__class__.__name__ == "Rack":
+                attributes['userId'] = self.library.user_id
 
         if 'created_at' in attributes:
             attributes['created_at'] = attributes['created_at'].strftime(time)

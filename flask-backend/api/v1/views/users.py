@@ -12,7 +12,7 @@ from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models.library import Library
 from .utility import check_attributes
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 @app_views.route("users", methods=['GET'])
@@ -60,7 +60,10 @@ def user_racks(user_id):
     routes user library racks
     """
 
-    user = storage.get(User, user_id)
+    if not user_id:
+        abort(404)
+    jwt_get_user = get_jwt_identity()
+    user = storage.get(User, jwt_get_user)
 
     if not user:
         return jsonify({'error': 'user not found'}), 404

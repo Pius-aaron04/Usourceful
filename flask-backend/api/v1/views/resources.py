@@ -38,10 +38,9 @@ def create_resources():
     elif 'content' not in data:
         return jsonify({'error': 'content missing'}), 400
 
-    if any(('rack_id', 'subrack_id')) not in data:
-        return {'error': "either rack_id or subrack_id must be specified"}, 400
+    # if any(('rack_id', 'subrack_id')) not in data:
+    #     return {'error': "either rack_id or subrack_id must be specified"}, 400
     resource = Resource(**data)
-    print(resource)
     resource.save()
     return jsonify(resource.to_dict()), 201
 
@@ -121,12 +120,18 @@ def save_resource_file():
     return jsonify({"message": "upload successful"}), 200
 
 @app_views.route('resources', strict_slashes=False, methods=['GET'])
-def get_em():
+def get_resources():
     """
-    routes public racks.
+    Routes public resources.
     """
+    public_only = request.args.get('public')
+    resources = [resource.to_dict() for resource in storage.all(Resource).values()]
 
-    racks = [rack.to_dict() for rack in storage.all(Resource).values() if rack.public]
+    if public_only:
+        resources = [resource for resource in resources if resource['public']]
 
-    return jsonify(racks)
+    for resource in resources:
+        resource['userId'] = resource.rack.library.user_id
+
+    return jsonify(resources)
 

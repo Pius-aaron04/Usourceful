@@ -44,7 +44,15 @@ def rack_resources(rack_id):
         abort(404)
 
     if request.method == 'GET':
-        resources = [resource.to_dict() for resource in rack.resources]
+        public_only = request.args.get('public')
+        resources = rack.resources
+
+        if public_only:
+            resources = [resource.to_dict() for resource in resources if resource.public]
+        else:
+            resources = [resource.to_dict() for resource in resources]
+        for resource in resources:
+            resource['userId'] = rack.library.user_id
 
         return jsonify(resources), 200
     elif request.method == 'POST':
