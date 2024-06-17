@@ -14,17 +14,18 @@ Check out app at [usourceful.techsorce.tech]('https://usourceful.techsorce.tech'
 ### Create 
 Users can create racks for organising resources and also Create individual resources
 
-![Create-rack]('images/Create-rack.png')
+
+![Create-rack](https://raw.githubusercontent.com/piusaaron/Usourceful/main/images/Create-rack.png)
 
 ### Edit
 users can edit already created racks(such as name and descriptions) or resources(names, descriptions and content).
 
-![Edit]('images/Create-rack.png')
+![Edit](https://raw.githubusercontent.com/piusaaron/Usourceful/main/images/Edit.png)
 
 ### Xplore
 This feature display all public viewable resources collections on the platform
 
-![xplore]('images/Xplore.png)
+![xplore](https://raw.githubusercontent.com/piusaaron/Usourceful/main/images/Xplore.png)
 
 ### Embedded Youtube video
 This features uses the YouTube iframe API to enable users watch their YouTube video resources right from the app.
