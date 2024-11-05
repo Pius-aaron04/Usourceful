@@ -41,10 +41,9 @@ def library_racks(library_id):
     gets a library racks
     """
 
-    if not library_id:
-        abort(404)
-
     lib = storage.get(Library, library_id)
+    if not lib:
+        abort(404)
     racks = [rack.to_dict() for rack in library.rack]
 
-    return jsonify(racks)
+    return jsonify(racks), 200

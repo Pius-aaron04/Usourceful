@@ -15,6 +15,9 @@ from .utility import check_attributes
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
+USER_NOT_FOUND = {
+    "error": "user not found"
+}
 @app_views.route("users", methods=['GET'])
 def all_users():
     """Gets users"""
@@ -32,7 +35,7 @@ def get_user(user_id=None):
     user = storage.get(User, user_id)
 
     if not user:
-        return jsonify({'error': 'user not found'}), 404
+        return jsonify(USER_NOT_FOUND), 404
 
     return jsonify(user.to_dict()), 200
 
@@ -66,7 +69,7 @@ def user_racks(user_id):
     user = storage.get(User, jwt_get_user)
 
     if not user:
-        return jsonify({'error': 'user not found'}), 404
+        return jsonify(USER_NOT_FOUND), 404
 
     if request.method == 'GET':
         user_racks = [rack.to_dict() for rack in user.library.racks]
@@ -94,7 +97,7 @@ def update_delete_user_rack(user_id, rack_id):
     user = storage.get(User, user_id)
     rack = storage.get(Rack, rack_id)
 
-    if all(user, rack):
+    if not all((user, rack)):
         abort(404)
 
     if request.method == 'PUT':
@@ -196,7 +199,7 @@ def user_recommendations(user_id):
     user = storage.get(User, user_id)
 
     if not user:
-        return jsonify({'error': 'user not found'}), 404
+        return jsonify(USER_NOT_FOUND), 404
 
     recommends = [recomm.to_dict() for recomm in user.recommendations]
 
