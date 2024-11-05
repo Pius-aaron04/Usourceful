@@ -169,10 +169,16 @@ def get_del_rack_resource(user_id, rack_id, resource_id):
     rack = storage.get(Rack, rack_id)
 
     resource = storage.get(Resource, resource_id)
+    
 
     if not (all((user, resource, rack)) and \
             (rack in user.library.racks and resource in rack.resources)):
         abort(404)
+
+    data = resource.to_dict()
+
+    if request.method == 'GET':
+        return jsonify(data), 200
 
     if request.method == 'PUT':
         if resource.rack.library.user_id != user_id:

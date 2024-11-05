@@ -11,6 +11,8 @@ from models.resource import Resource
 from models.sub_rack import Subrack
 
 
+DELETE_ORPHANS = 'all, delete-orphan'
+
 class Rack(BaseModel, Base):
     """
     Defines Rack objects
@@ -34,9 +36,9 @@ class Rack(BaseModel, Base):
         library_id = Column(String(60), ForeignKey('libraries.id'),
                             nullable=False)
         public = Column(Boolean, default=True, nullable=False)
-        resources = relationship(Resource, backref="rack", cascade="all, delete-orphan")
-        subracks = relationship(Subrack, backref="parent_rack", cascade="all, delete-orphan")
-        reviews = relationship('RackReview', backref='rack', cascade="all, delete-orphan")
+        resources = relationship(Resource, backref="rack", cascade=DELETE_ORPHANS)
+        subracks = relationship(Subrack, backref="parent_rack", cascade=DELETE_ORPHANS)
+        reviews = relationship('RackReview', backref='rack', cascade=DELETE_ORPHANS)
 
     else:
         name = ""

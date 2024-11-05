@@ -3,7 +3,6 @@ body{
 }
 
 footer{
-    /* position: fixed; */
     bottom: 0;
     max-height: 50px;
     border-top: solid 2px goldenrod;

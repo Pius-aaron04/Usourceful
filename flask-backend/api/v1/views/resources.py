@@ -115,6 +115,7 @@ def save_resource_file():
         except Exception:
             return jsonify({"error": "upload failed"}), 200
         resource = storage.classes[typ](**data)
+        resource.save()
     return jsonify({"message": "upload successful"}), 200
 
 @app_views.route('resources', strict_slashes=False, methods=['GET'])

@@ -10,8 +10,7 @@ from api.v1.views import app_views
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_migrate import Migrate
-from  flask_jwt_extended import  ( JWTManager, create_access_token,
-                                  jwt_required, get_jwt_identity)
+from flask_jwt_extended import  (JWTManager, create_access_token)
 import datetime
 from models.user import User
 
@@ -24,7 +23,7 @@ migrate = Migrate(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
-# app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 @app.errorhandler(404)
